@@ -17,8 +17,8 @@ export const SITE = {
   githubUrl: "https://github.com/hamzaDeploys/fabricscan-ai",
   linkedinUrl: "",
   youtubeUrl: "",
-  reportUrl: "",
-  presentationUrl: "",
+  reportUrl: "https://github.com/hamzaDeploys/fabricscan-ai/blob/main/docs/REPORT.md",
+  presentationUrl: "https://github.com/hamzaDeploys/fabricscan-ai/blob/main/docs/FabricScan_AI_Presentation.pptx",
   year: 2026,
 };
 

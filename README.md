@@ -10,8 +10,9 @@ leaves the device.
 | | |
 |---|---|
 | **Live website** | **https://fabricscan-ai.vercel.app** |
-| **Project report** | _coming soon_ |
-| **Presentation and video** | _coming soon_ |
+| **Project report** | [docs/REPORT.md](docs/REPORT.md) |
+| **Presentation** | [docs/FabricScan_AI_Presentation.pptx](docs/FabricScan_AI_Presentation.pptx) (14 slides, voice-over in the speaker notes) |
+| **Video** | _YouTube link coming soon_ |
 | **Dataset (ZIP)** | [`web/public/downloads/fabricscan-dataset.zip`](web/public/downloads/fabricscan-dataset.zip) |
 | **Model weights** | [`weights/`](weights/) |
 
