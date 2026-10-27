@@ -1,0 +1,25 @@
+# FabricScan AI: Python dependencies (exact versions tested on Windows 11, Python 3.12, CPU).
+# Install:  python -m venv .venv  &&  .venv\Scripts\activate  &&  pip install -r requirements.txt
+#
+# Windows note: TensorFlow is pinned to 2.20.0 (not 2.21) and SciPy to 1.16.3 because, on a PC with
+# Windows "Smart App Control" switched on, the newer builds' DLLs were blocked while these load fine.
+
+# --- data preparation (no TensorFlow needed) ---
+numpy==2.5.4
+pillow==13.0.0
+pillow-heif==1.8.1          # opens HEIC photos from iPhones
+matplotlib==3.11.2
+
+# --- training and evaluation ---
+tensorflow==2.20.0
+keras==3.15.1
+scipy==1.16.3
+scikit-learn==1.9.1
+
+# --- ONNX export and browser-model verification ---
+tf2onnx==1.17.0
+onnx==1.23.2
+onnxruntime==1.31.0
+
+# --- tests ---
+pytest==9.1.1

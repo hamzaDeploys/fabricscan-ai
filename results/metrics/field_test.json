@@ -1,0 +1,10 @@
+{
+  "description": "clean worn garments not in the dataset (people-clothing-segmentation), garment crop",
+  "images": 150,
+  "predicted": {
+    "good": 138,
+    "stain": 11,
+    "broken_thread": 1
+  },
+  "good_rate": 0.92
+}

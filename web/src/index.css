@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Design tokens (light) ---------- */
+:root {
+  color-scheme: light;
+  --surface: #fbfaf7; /* unbleached cotton */
+  --surface-2: #ffffff;
+  --surface-3: #f2f0ea;
+  --ink: #12141c;
+  --ink-2: #444959;
+  --muted: #646a7b;
+  --line: #e4e1d8;
+  --brand: #3446c4; /* indigo dye */
+  --brand-soft: #e8ebfb;
+  --btn: #3446c4;
+  --accent: #c9821f; /* saffron thread (text-safe) */
+  --accent-bright: #f2b85b;
+
+  /* charts: validated categorical slots 1-2, chart chrome */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-grid: #e1e0d9;
+  --chart-axis: #c3c2b7;
+
+  /* severity (status palette: icon + label always accompany the colour) */
+  --sev-none: #0ca30c;
+  --sev-none-ink: #0a6e0a;
+  --sev-low: #fab219;
+  --sev-low-ink: #7a5000;
+  --sev-medium: #ec835a;
+  --sev-medium-ink: #9c3d16;
+  --sev-high: #d03b3b;
+  --sev-high-ink: #a32424;
+}
+
+/* ---------- Design tokens (dark) ---------- */
+.dark {
+  color-scheme: dark;
+  --surface: #0e1017;
+  --surface-2: #151925;
+  --surface-3: #1c2130;
+  --ink: #eef0f6;
+  --ink-2: #b9bdcc;
+  --muted: #8f95a8;
+  --line: #272d3e;
+  --brand: #8d9bff;
+  --brand-soft: #1d2346;
+  --btn: #5466e8;
+  --accent: #f2b85b;
+  --accent-bright: #f2b85b;
+
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-grid: #2c2c2a;
+  --chart-axis: #383835;
+
+  --sev-none-ink: #5fd35f;
+  --sev-low-ink: #ffcf5c;
+  --sev-medium-ink: #f4a27f;
+  --sev-high-ink: #ff8080;
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-btn: var(--btn);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--brand) 30%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-surface-2 shadow-[0_1px_2px_rgba(16,18,28,0.04)];
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  /* use together with .btn, e.g. class="btn btn-primary" */
+  .btn-primary {
+    @apply bg-btn text-white hover:brightness-110;
+  }
+  .btn-secondary {
+    @apply border border-line bg-surface-2 text-ink hover:bg-surface-3;
+  }
+  .btn-ghost {
+    @apply text-ink-2 hover:bg-surface-3 hover:text-ink;
+  }
+  .eyebrow {
+    @apply font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase;
+  }
+  .section-title {
+    @apply font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1 text-xs font-medium text-ink-2;
+  }
+  .skip-link {
+    @apply sr-only rounded-lg bg-btn px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100];
+  }
+}
+
+/* A subtle woven texture for hero / section backgrounds. */
+.weave {
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--ink) 5%, transparent) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--ink) 5%, transparent) 0 1px, transparent 1px 9px);
+}
+
+@keyframes scan {
+  0% { transform: translateY(-10%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(1000%); opacity: 0; }
+}
+.scan-line {
+  animation: scan 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

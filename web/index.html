@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FabricScan AI · Textile Defect Detection in Your Browser</title>
+    <meta
+      name="description"
+      content="Upload or photograph a fabric and FabricScan AI detects holes, stains and broken threads, highlights where the defect is and writes an inspection report. Runs entirely in your browser."
+    />
+    <meta name="keywords" content="textile defect detection, fabric inspection, deep learning, CNN, MobileNetV2, Grad-CAM, ONNX, computer vision" />
+    <meta name="theme-color" content="#3446c4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1017" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FabricScan AI · Textile Defect Detection" />
+    <meta property="og:description" content="AI that finds fabric defects, shows where they are and writes the inspection report, all in the browser." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FabricScan AI · Textile Defect Detection" />
+    <meta name="twitter:description" content="AI that finds fabric defects, shows where they are and writes the inspection report, all in the browser." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <script>
+      // Apply the saved or system theme before first paint (no flash of the wrong theme).
+      try {
+        var saved = localStorage.getItem("theme");
+        var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>FabricScan AI runs a neural network in your browser and needs JavaScript enabled.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

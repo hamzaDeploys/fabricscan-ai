@@ -1,0 +1,80 @@
+{
+  "source": "data/splits",
+  "class_names": [
+    "good",
+    "hole",
+    "stain",
+    "broken_thread"
+  ],
+  "display_names": {
+    "good": "Good (No Defect)",
+    "hole": "Hole",
+    "stain": "Stain / Oil Spot",
+    "broken_thread": "Broken Thread / Slub"
+  },
+  "images": {
+    "train": {
+      "good": 242,
+      "hole": 120,
+      "stain": 197,
+      "broken_thread": 156
+    },
+    "val": {
+      "good": 52,
+      "hole": 26,
+      "stain": 43,
+      "broken_thread": 34
+    },
+    "test": {
+      "good": 52,
+      "hole": 26,
+      "stain": 43,
+      "broken_thread": 34
+    }
+  },
+  "totals": {
+    "good": 346,
+    "hole": 172,
+    "stain": 283,
+    "broken_thread": 224
+  },
+  "total_images": 1025,
+  "physical_samples": {
+    "good": 346,
+    "hole": 172,
+    "stain": 283,
+    "broken_thread": 224
+  },
+  "imbalance_ratio": 2.012,
+  "sources": {
+    "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0)": 218,
+    "Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)": 238,
+    "Kaggle: rajkumarl/people-clothing-segmentation (CC0)": 110,
+    "Kaggle: hyungjung/stitchingnet-dataset (CC BY-NC 4.0)": 138,
+    "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0)": 321
+  },
+  "sources_per_class": {
+    "good": {
+      "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0)": 99,
+      "Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)": 98,
+      "Kaggle: rajkumarl/people-clothing-segmentation (CC0)": 110,
+      "Kaggle: hyungjung/stitchingnet-dataset (CC BY-NC 4.0)": 39
+    },
+    "hole": {
+      "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0)": 15,
+      "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0)": 157
+    },
+    "stain": {
+      "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0)": 100,
+      "Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)": 140,
+      "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0)": 43
+    },
+    "broken_thread": {
+      "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0)": 4,
+      "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0)": 121,
+      "Kaggle: hyungjung/stitchingnet-dataset (CC BY-NC 4.0)": 99
+    }
+  },
+  "capture_log": {},
+  "warnings": []
+}

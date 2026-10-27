@@ -1,0 +1,50 @@
+[
+  {
+    "file": "samples/good-1.jpg",
+    "class": "good",
+    "label": "Good (No Defect)",
+    "source": "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0), held out of the dataset"
+  },
+  {
+    "file": "samples/good-2.jpg",
+    "class": "good",
+    "label": "Good (No Defect)",
+    "source": "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0), held out of the dataset"
+  },
+  {
+    "file": "samples/hole-1.jpg",
+    "class": "hole",
+    "label": "Hole",
+    "source": "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0), test split"
+  },
+  {
+    "file": "samples/hole-2.jpg",
+    "class": "hole",
+    "label": "Hole",
+    "source": "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0), test split"
+  },
+  {
+    "file": "samples/stain-1.jpg",
+    "class": "stain",
+    "label": "Stain / Oil Spot",
+    "source": "Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0), test split"
+  },
+  {
+    "file": "samples/stain-2.jpg",
+    "class": "stain",
+    "label": "Stain / Oil Spot",
+    "source": "Kaggle: nexuswho/fabric-defects-dataset (CC BY 4.0), test split"
+  },
+  {
+    "file": "samples/broken_thread-1.jpg",
+    "class": "broken_thread",
+    "label": "Broken Thread / Slub",
+    "source": "Kaggle: hyungjung/stitchingnet-dataset (CC BY-NC 4.0), test split"
+  },
+  {
+    "file": "samples/broken_thread-2.jpg",
+    "class": "broken_thread",
+    "label": "Broken Thread / Slub",
+    "source": "Kaggle: pulakdroy/fabric-defect-without-augmentation (CC BY 4.0), test split"
+  }
+]

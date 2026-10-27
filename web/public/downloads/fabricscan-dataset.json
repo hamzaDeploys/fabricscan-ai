@@ -1,0 +1,91 @@
+{
+  "file": "fabricscan-dataset.zip",
+  "size_bytes": 23749315,
+  "images": 1025,
+  "image_size": 256,
+  "classes": [
+    "good",
+    "hole",
+    "stain",
+    "broken_thread"
+  ],
+  "splits": {
+    "train": {
+      "good": 242,
+      "hole": 120,
+      "stain": 197,
+      "broken_thread": 156
+    },
+    "val": {
+      "good": 52,
+      "hole": 26,
+      "stain": 43,
+      "broken_thread": 34
+    },
+    "test": {
+      "good": 52,
+      "hole": 26,
+      "stain": 43,
+      "broken_thread": 34
+    }
+  },
+  "sources": [
+    {
+      "title": "Fabric Defect (without augmentation)",
+      "ref": "pulakdroy/fabric-defect-without-augmentation",
+      "licence": "CC BY 4.0",
+      "url": "https://www.kaggle.com/datasets/pulakdroy/fabric-defect-without-augmentation",
+      "images": 321,
+      "classes": {
+        "hole": 157,
+        "stain": 43,
+        "broken_thread": 121
+      }
+    },
+    {
+      "title": "Clothes Stain/Defect Detection",
+      "ref": "anmol055/clothes-staindefect-detection",
+      "licence": "CC BY 4.0",
+      "url": "https://www.kaggle.com/datasets/anmol055/clothes-staindefect-detection",
+      "images": 238,
+      "classes": {
+        "good": 98,
+        "stain": 140
+      }
+    },
+    {
+      "title": "Fabric Defects Dataset",
+      "ref": "nexuswho/fabric-defects-dataset",
+      "licence": "CC BY 4.0",
+      "url": "https://www.kaggle.com/datasets/nexuswho/fabric-defects-dataset",
+      "images": 218,
+      "classes": {
+        "good": 99,
+        "hole": 15,
+        "stain": 100,
+        "broken_thread": 4
+      }
+    },
+    {
+      "title": "StitchingNet",
+      "ref": "hyungjung/stitchingnet-dataset",
+      "licence": "CC BY-NC 4.0",
+      "url": "https://www.kaggle.com/datasets/hyungjung/stitchingnet-dataset",
+      "images": 138,
+      "classes": {
+        "good": 39,
+        "broken_thread": 99
+      }
+    },
+    {
+      "title": "People Clothing Segmentation",
+      "ref": "rajkumarl/people-clothing-segmentation",
+      "licence": "CC0",
+      "url": "https://www.kaggle.com/datasets/rajkumarl/people-clothing-segmentation",
+      "images": 110,
+      "classes": {
+        "good": 110
+      }
+    }
+  ]
+}
