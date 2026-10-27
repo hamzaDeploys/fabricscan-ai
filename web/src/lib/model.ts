@@ -29,8 +29,10 @@ export async function fetchJson<T>(path: string): Promise<T> {
 export function loadModel(): Promise<LoadedModel> {
   if (!loading) {
     loading = (async () => {
-      // Several threads need cross-origin isolation (COOP/COEP headers); otherwise fall back to one thread.
-      ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.min(4, navigator.hardwareConcurrency || 1) : 1;
+      // One thread. With several, ONNX Runtime starts its worker threads from the script it was bundled into; in the
+      // production build that is the whole app, which crashes inside a worker ("document is not defined") and leaves
+      // the model loading forever. MobileNetV2 is small enough that one thread is fast.
+      ort.env.wasm.numThreads = 1;
       const meta = await fetchJson<ModelMeta>("models/model_meta.json");
       const session = await ort.InferenceSession.create(`${BASE}models/${meta.model_file}`, {
         executionProviders: ["wasm"],

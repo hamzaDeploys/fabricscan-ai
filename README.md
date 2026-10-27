@@ -9,7 +9,7 @@ leaves the device.
 
 | | |
 |---|---|
-| **Live website** | _added after deployment_ |
+| **Live website** | **https://fabricscan-ai.vercel.app** |
 | **Project report** | _coming soon_ |
 | **Presentation and video** | _coming soon_ |
 | **Dataset (ZIP)** | [`web/public/downloads/fabricscan-dataset.zip`](web/public/downloads/fabricscan-dataset.zip) |
