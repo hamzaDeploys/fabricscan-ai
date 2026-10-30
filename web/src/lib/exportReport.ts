@@ -80,8 +80,8 @@ export async function renderReportCanvas(report: DefectReport, annotated: HTMLCa
   ctx.fillStyle = "#f5f8fd";
   ctx.fillRect(0, 0, W, H);
   const band = ctx.createLinearGradient(0, 0, W, 0);
-  band.addColorStop(0, "#1466f2");
-  band.addColorStop(1, "#00d0e0");
+  band.addColorStop(0, "#7c5cf6");
+  band.addColorStop(1, "#22d3ee");
   ctx.fillStyle = band;
   ctx.fillRect(0, 0, W, 8);
   ctx.drawImage(annotated, pad, pad + 16, imgSize, imgSize);

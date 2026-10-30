@@ -187,12 +187,13 @@ async function revealAll(page: import("@playwright/test").Page) {
   await page.waitForTimeout(500);
 }
 
-test("dark mode toggles and full-page screenshots", async ({ page }, info) => {
+test("the site is dark by default, light mode toggles, and full-page screenshots", async ({ page }, info) => {
   await page.getByTestId("model-status").waitFor();
   await revealAll(page);
-  await page.screenshot({ path: `${SHOTS}/${info.project.name}-light.png`, fullPage: true });
-  await page.getByRole("button", { name: /Switch to dark mode/ }).click();
   await expect(page.locator("html")).toHaveClass(/dark/);
-  await page.waitForTimeout(400);
   await page.screenshot({ path: `${SHOTS}/${info.project.name}-dark.png`, fullPage: true });
+  await page.getByRole("button", { name: /Switch to light mode/ }).click();
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `${SHOTS}/${info.project.name}-light.png`, fullPage: true });
 });

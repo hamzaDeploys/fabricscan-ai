@@ -95,12 +95,12 @@ function ProfileCard() {
   const filled = details.filter(([, , value]) => value);
   return (
     <div className="card overflow-hidden lg:sticky lg:top-24 lg:self-start" data-testid="profile-card">
-      <div className="relative h-24 bg-[linear-gradient(120deg,#011986,#1466f2_50%,#00c2d0)]">
+      <div className="relative h-24 bg-[linear-gradient(120deg,#231a5c,#6d4aff_50%,#22b8cf)]">
         <div className="weave absolute inset-0 opacity-40" aria-hidden="true" />
       </div>
       <div className="px-6 pb-6 sm:px-7">
         {SITE.author ? (
-          <div className="relative -mt-10 flex size-20 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] font-display text-2xl font-bold text-white shadow-lg ring-4 ring-surface-2" aria-hidden="true">
+          <div className="relative -mt-10 flex size-20 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] font-display text-2xl font-bold text-[var(--btn-ink)] shadow-lg ring-4 ring-surface-2" aria-hidden="true">
             {initials(SITE.author)}
           </div>
         ) : (

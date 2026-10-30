@@ -1,115 +1,104 @@
-import { ArrowRight, OctagonAlert } from "lucide-react";
+import { ArrowDown, ArrowUpRight, OctagonAlert } from "lucide-react";
 import { motion } from "motion/react";
 
 import { useSiteData } from "../../hooks/useSiteData";
 import { pct } from "../../lib/format";
 
-/** What this app really reports for public/hero/photo.webp with MobileNetV2; the images are its own output. */
-const EXAMPLE = { label: "Stain / Oil Spot", confidence: 0.991, severity: "High", location: "Center", area: "≈ 8.6%" };
+/** What this app really reports for public/hero/photo.webp with MobileNetV2. */
+const EXAMPLE = { label: "Stain / Oil Spot", confidence: 0.991, severity: "High", location: "center", area: "≈ 8.6%" };
 
-function HeroVisual() {
+function ModelWindow() {
   return (
     <motion.figure
-      className="scan-frame relative mx-auto w-full max-w-md lg:mr-0 lg:ml-auto"
+      className="mx-auto w-full max-w-lg lg:mr-0 lg:ml-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15 }}
     >
-      <i />
-      <i />
-      <i />
-      <i />
-      <div className="card overflow-hidden shadow-2xl shadow-black/40">
-        <div className="relative aspect-[5/4] overflow-hidden bg-surface-3">
-          <img src="/hero/photo.webp" alt="Close-up of a white T-shirt with orange stains" width={800} height={640} className="absolute inset-0 size-full object-cover" />
-          <img src="/hero/spot.webp" alt="" className="hero-step-2 absolute inset-0 size-full object-cover" />
-          <img src="/hero/heat.webp" alt="" className="hero-step-3 absolute inset-0 size-full object-cover" />
-          <div className="hero-beam absolute inset-x-0 top-0 h-[14%] bg-gradient-to-b from-transparent via-[color-mix(in_oklab,var(--accent-bright)_45%,transparent)] to-transparent" />
-          <span className="absolute top-3 left-3 rounded-lg bg-black/70 px-2.5 py-1 text-xs font-medium text-white" aria-hidden="true">
-            <span className="hero-step-1 absolute inset-0 grid place-items-center">Scanning…</span>
-            <span className="hero-step-2 absolute inset-0 grid place-items-center">Defect found</span>
-            <span className="hero-step-3 absolute inset-0 grid place-items-center">Heatmap</span>
-            <span className="invisible">Defect found</span>
+      <div className="hero-tilt card overflow-hidden shadow-2xl shadow-black/50">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3">
+          <span className="flex gap-1.5" aria-hidden="true">
+            <i className="size-2 rounded-full bg-[#ff6b6b]" />
+            <i className="size-2 rounded-full bg-[#ffc857]" />
+            <i className="size-2 rounded-full bg-[#77e4bd]" />
           </span>
+          <span className="font-mono text-xs text-ink-2">fabricscan.onnx</span>
+          <span className="text-right text-[10px] font-semibold tracking-[0.14em] text-accent uppercase">Model output</span>
         </div>
-        <figcaption className="p-4 sm:p-5">
-          <div className="flex items-end justify-between gap-3">
-            <div className="min-w-0">
-              <p className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider text-[var(--sev-high-ink)] uppercase">
-                <OctagonAlert className="size-3.5" aria-hidden="true" /> Defect detected
-              </p>
-              <p className="mt-1 font-display text-xl leading-tight font-bold text-ink">{EXAMPLE.label}</p>
-            </div>
-            <p className="shrink-0 text-right">
-              <span className="block font-display text-2xl leading-none font-bold text-ink">{pct(EXAMPLE.confidence)}</span>
-              <span className="mt-1 block text-[11px] text-muted">confidence</span>
-            </p>
+        <div className="relative mx-3 aspect-[6/5] overflow-hidden rounded-xl bg-surface-3">
+          <img src="/hero/photo.webp" alt="Close-up of a white T-shirt with orange stains" width={800} height={667} className="absolute inset-0 size-full object-cover" />
+          {/* The app's estimated defect area for this photo (its bounding box, in this crop). */}
+          <div
+            className="hero-step-2 absolute top-[7.1%] left-[6.5%] h-[73.9%] w-[76.8%] rounded-xl border-2 border-[#ff4828] shadow-[0_0_0_1.5px_rgba(255,255,255,0.95)]"
+            aria-hidden="true"
+          />
+          <div className="hero-step-1 scan-corners absolute inset-x-[9%] top-[8%] bottom-[24%]" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+            <i />
           </div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-surface-3" aria-hidden="true">
-            <motion.div
-              className="h-full origin-left rounded-full"
-              style={{ width: `${EXAMPLE.confidence * 100}%`, background: "var(--grad-line)" }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-            />
-          </div>
-          <dl className="mt-3.5 grid grid-cols-3 gap-2 text-sm">
-            {[
-              ["Severity", EXAMPLE.severity],
-              ["Location", EXAMPLE.location],
-              ["Affected area", EXAMPLE.area],
-            ].map(([term, value]) => (
-              <div key={term}>
-                <dt className="text-[11px] text-muted">{term}</dt>
-                <dd className="mt-0.5 font-semibold text-ink">{value}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-3 border-t border-line pt-2.5 text-[11px] text-muted">
-            Real MobileNetV2 output on a close-up crop of a photo outside the dataset.
-            <span className="block">Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)</span>
+          <div className="hero-beam absolute inset-x-0 top-0 h-[12.5%] bg-gradient-to-b from-transparent via-[color-mix(in_oklab,var(--accent-bright)_22%,transparent)] to-transparent" aria-hidden="true" />
+          <figcaption className="absolute inset-x-2.5 bottom-2.5 flex items-center gap-3 rounded-xl border border-white/10 bg-[#0d1120]/90 px-3 py-2.5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_oklab,var(--sev-high)_20%,transparent)] text-[var(--sev-high-ink)]">
+              <OctagonAlert className="size-[18px]" aria-hidden="true" />
+            </span>
+            <span className="min-w-0">
+              <span className="block font-display text-sm font-semibold text-ink">{EXAMPLE.label}</span>
+              <span className="block text-xs text-ink-2">
+                {pct(EXAMPLE.confidence)} confidence · {EXAMPLE.severity} severity · {EXAMPLE.location} · {EXAMPLE.area} area
+              </span>
+            </span>
+          </figcaption>
+        </div>
+        <div className="px-4 py-3">
+          <p className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-ink-2">
+            <span className="flex items-center gap-2">
+              <i className="size-1.5 rounded-full bg-accent" aria-hidden="true" /> Real output, MobileNetV2
+            </span>
+            <span>Preprocess → Predict → Report</span>
           </p>
-        </figcaption>
+          <p className="mt-1.5 text-[10.5px] leading-snug text-muted">
+            Close-up crop of a photo outside the dataset. Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)
+          </p>
+        </div>
       </div>
     </motion.figure>
   );
 }
 
 export function Hero() {
-  const { metrics, dataset } = useSiteData();
+  const { meta, metrics } = useSiteData();
   const best = metrics?.models[metrics.best_model];
   const stats = [
-    [best ? pct(best.test.accuracy) : "—", "test accuracy of the better model"],
-    [metrics ? String(Object.keys(metrics.models).length) : "—", "trained models you can compare"],
-    [dataset ? dataset.total_images.toLocaleString("en-US") : "—", `real images in ${dataset?.class_names.length ?? "four"} classes`],
-    ["0", "photos uploaded: it runs in your browser"],
+    [best ? best.name.split(" (")[0] : "—", "Default model"],
+    [best ? pct(best.test.accuracy) : "—", "Test accuracy"],
+    [metrics ? String(metrics.class_names.length) : "—", "Fabric classes"],
+    [meta ? `${meta.input.size} × ${meta.input.size}` : "—", "Input image size"],
   ];
   return (
     <section id="top" className="hero-bg dark relative overflow-hidden">
-      <div className="weave pointer-events-none absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" aria-hidden="true" />
-      <div className="aurora -top-52 left-[2%] size-[620px] bg-[radial-gradient(closest-side,rgba(20,102,242,0.42),transparent)]" aria-hidden="true" />
-      <div className="aurora -right-40 bottom-[-180px] size-[560px] bg-[radial-gradient(closest-side,rgba(0,224,208,0.22),transparent)] [animation-delay:-12s]" aria-hidden="true" />
-      <div className="container-page relative grid grid-cols-1 items-center gap-12 pt-14 pb-16 md:pt-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14 lg:pb-24">
+      <div className="pointer-events-none absolute -top-72 -right-44 size-[680px] rounded-full border border-white/[0.05]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -top-96 -right-64 size-[980px] rounded-full border border-white/[0.04]" aria-hidden="true" />
+      <div className="container-page relative grid grid-cols-1 items-center gap-12 pt-14 pb-16 md:pt-20 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-10 lg:pb-24">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <p className="eyebrow">AI textile inspection</p>
-          <h1 className="mt-4 font-display text-4xl leading-[1.08] font-bold tracking-tight text-balance text-ink sm:text-5xl lg:text-[3.5rem]">
-            Spot fabric defects in seconds, <span className="text-gradient">with the report written for you.</span>
+          <p className="eyebrow">Deep learning · Fabric inspection</p>
+          <h1 className="mt-5 font-display text-5xl leading-[1.04] font-semibold tracking-[-0.03em] text-ink sm:text-6xl lg:text-[4.6rem]">
+            Spot fabric defects <span className="text-gradient whitespace-nowrap">in seconds.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
-            Upload or photograph a fabric and choose one of two trained neural networks. It sorts the photo into four
-            classes, shows where the defect is and writes a severity-graded inspection note with likely causes and the
-            recommended action.
+            An image classification project that sorts a photo of fabric or clothing into four classes, shows where the
+            defect is and writes the inspection report. Pick either of two trained models; everything runs in your browser.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#demo" className="btn btn-primary px-5 py-3 text-base">
-              Try the live demo <ArrowRight className="size-4" aria-hidden="true" />
+            <a href="#demo" className="btn btn-primary h-13 rounded-2xl px-6 text-base">
+              Try the live demo <ArrowDown className="size-4" aria-hidden="true" />
             </a>
-            <a href="#how" className="btn btn-secondary px-5 py-3 text-base">
-              How it works
+            <a href="#links" className="btn btn-secondary h-13 rounded-2xl bg-transparent px-6 text-base">
+              Project links <ArrowUpRight className="size-4" aria-hidden="true" />
             </a>
           </div>
-          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 sm:grid-cols-4">
+          <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-5">
             {stats.map(([value, label], i) => (
               <motion.div
                 key={label}
@@ -118,13 +107,13 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
               >
-                <dt className="mt-1.5 text-xs leading-snug text-muted">{label}</dt>
-                <dd className="font-display text-2xl leading-none font-bold text-ink">{value}</dd>
+                <dt className="mt-1.5 text-xs text-muted">{label}</dt>
+                <dd className="font-display text-xl leading-none font-semibold text-ink">{value}</dd>
               </motion.div>
             ))}
           </dl>
         </motion.div>
-        <HeroVisual />
+        <ModelWindow />
       </div>
     </section>
   );

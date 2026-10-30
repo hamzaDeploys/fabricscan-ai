@@ -54,7 +54,7 @@ export function DatasetSection() {
               <div className="weave pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
               <div className="relative">
                 <div className="flex items-start gap-4">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] text-white shadow-md">
+                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] text-[var(--btn-ink)] shadow-md">
                     <FolderArchive className="size-6" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">

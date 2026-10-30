@@ -8,7 +8,7 @@ export function useTheme() {
       const next = !prev;
       document.documentElement.classList.toggle("dark", next);
       try {
-        localStorage.setItem("theme", next ? "dark" : "light");
+        localStorage.setItem("fabricscan-theme", next ? "dark" : "light");
       } catch {
         /* storage unavailable (private mode): the choice simply is not remembered */
       }

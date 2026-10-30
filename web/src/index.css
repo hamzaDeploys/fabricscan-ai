@@ -2,33 +2,33 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Design tokens (light) ----------
-   Colours come from the logo: royal blue (#1466f2), deep navy (#011986) and scan cyan (#00e0d0).
-   Text colours keep at least 4.5:1 contrast; the bright cyan is decorative only. */
+/* ---------- Design tokens (light, optional: the site is dark by default) ----------
+   The same violet-to-cyan family as the dark theme, darkened so text keeps at least 4.5:1 contrast. */
 :root {
   color-scheme: light;
-  --surface: #f5f8fd;
+  --surface: #f7f7fc;
   --surface-2: #ffffff;
-  --surface-3: #ebf1fa;
-  --ink: #0b1533; /* logo navy */
-  --ink-2: #3c4a6b;
-  --muted: #5d6a88;
-  --line: #dbe3f0;
-  --brand: #1557e6; /* logo blue */
-  --brand-soft: #e5edfd;
-  --btn: #1557e6;
-  --accent: #08807a; /* logo cyan, darkened for text */
-  --accent-bright: #19e3cf; /* logo cyan */
-  --grad-btn: linear-gradient(120deg, #1557e6 0%, #0a72c4 60%, #0e7490 100%);
-  --grad-text: linear-gradient(100deg, #1557e6 0%, #0a72c4 45%, #08807a 100%);
-  --grad-line: linear-gradient(90deg, #1466f2, #00e0d0);
-  --glow: 0 10px 30px -10px color-mix(in oklab, #1466f2 55%, transparent);
+  --surface-3: #eeeef8;
+  --ink: #0e1024;
+  --ink-2: #434862;
+  --muted: #5f6480;
+  --line: #e1e2ef;
+  --brand: #5b3fe0;
+  --brand-soft: #ecebfd;
+  --btn: #5b3fe0;
+  --btn-ink: #ffffff;
+  --accent: #08807a;
+  --accent-bright: #22d3ee; /* decorative only */
+  --grad-btn: linear-gradient(100deg, #6246ea 0%, #0a72c4 60%, #0e7490 100%);
+  --grad-text: linear-gradient(95deg, #5b3fe0 0%, #0a72c4 55%, #08807a 100%);
+  --grad-line: linear-gradient(90deg, #7c5cf6, #22d3ee);
+  --glow: 0 10px 30px -10px color-mix(in oklab, #6246ea 50%, transparent);
 
   /* charts: validated categorical slots 1-2, chart chrome */
   --chart-1: #2a78d6;
   --chart-2: #eb6834;
-  --chart-grid: #dfe6f1;
-  --chart-axis: #c2cbdb;
+  --chart-grid: #e4e5f1;
+  --chart-axis: #c7c9da;
 
   /* severity (status palette: icon + label always accompany the colour) */
   --sev-none: #0ca30c;
@@ -41,29 +41,31 @@
   --sev-high-ink: #a32424;
 }
 
-/* ---------- Design tokens (dark) ---------- */
+/* ---------- Design tokens (dark, the default) ---------- */
 .dark {
   color-scheme: dark;
-  --surface: #070c1f;
-  --surface-2: #0d1530;
-  --surface-3: #142043;
-  --ink: #eaf0ff;
-  --ink-2: #b4c0dd;
-  --muted: #8794b5;
-  --line: #1d2a4f;
-  --brand: #7aa5ff;
-  --brand-soft: #13224d;
-  --btn: #1f5ff0;
-  --accent: #3ee8d4;
-  --accent-bright: #3ee8d4;
-  --grad-btn: linear-gradient(120deg, #1f5ff0 0%, #0a72c4 60%, #0e7490 100%);
-  --grad-text: linear-gradient(100deg, #7aa5ff 0%, #5cc8ff 45%, #3ee8d4 100%);
-  --glow: 0 10px 34px -8px color-mix(in oklab, #00e0d0 40%, transparent);
+  --surface: #080b14;
+  --surface-2: #111625;
+  --surface-3: #191e30;
+  --ink: #f4f6ff;
+  --ink-2: #aeb7cc;
+  --muted: #868ea6;
+  --line: #222839;
+  --brand: #b39bff;
+  --brand-soft: #1e1b3f;
+  --btn: #6d4aff;
+  --btn-ink: #0a0c16;
+  --accent: #77e4bd;
+  --accent-bright: #69d8ef;
+  --grad-btn: linear-gradient(100deg, #9883fd 0%, #84a8f6 50%, #6cd3ec 100%);
+  --grad-text: linear-gradient(95deg, #b39bff 0%, #8eb9f7 55%, #69d8ef 100%);
+  --grad-line: linear-gradient(90deg, #9883fd, #6cd3ec);
+  --glow: 0 10px 34px -10px color-mix(in oklab, #9883fd 45%, transparent);
 
   --chart-1: #3987e5;
   --chart-2: #d95926;
-  --chart-grid: #1d2a4f;
-  --chart-axis: #2d3b66;
+  --chart-grid: #222839;
+  --chart-axis: #2f3650;
 
   --sev-none-ink: #5fd35f;
   --sev-low-ink: #ffcf5c;
@@ -128,7 +130,7 @@
   }
   /* use together with .btn, e.g. class="btn btn-primary" */
   .btn-primary {
-    @apply relative overflow-hidden text-white hover:-translate-y-px hover:brightness-110 active:translate-y-0;
+    @apply relative overflow-hidden text-[var(--btn-ink)] hover:-translate-y-px hover:brightness-110 active:translate-y-0;
     background: var(--grad-btn);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset;
   }
@@ -155,14 +157,15 @@
     @apply text-ink-2 hover:bg-surface-3 hover:text-ink;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2.5 font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase;
+    @apply inline-flex items-center gap-2.5 font-display text-xs font-semibold tracking-[0.18em] text-ink-2 uppercase;
   }
   .eyebrow::before {
     content: "";
-    width: 1.75rem;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--grad-line);
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 70%, transparent);
   }
   .section-title {
     @apply font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl;
@@ -200,76 +203,64 @@
     repeating-linear-gradient(90deg, color-mix(in oklab, var(--ink) 5%, transparent) 0 1px, transparent 1px 9px);
 }
 
-/* The hero is navy in both themes (class "dark" on the section), like the logo on a dark background. */
+/* The hero is near-black in both themes (class "dark" on the section), with a violet glow in the corner. */
 .hero-bg {
-  background: linear-gradient(165deg, #070c1f 0%, #0a1438 58%, #07192f 100%);
+  background:
+    radial-gradient(560px 460px at 0% 0%, rgba(92, 66, 200, 0.32), transparent 72%),
+    radial-gradient(680px 460px at 90% 96%, rgba(34, 211, 238, 0.05), transparent 72%),
+    var(--surface);
 }
 
-/* Soft blue and cyan light behind the hero, drifting slowly. Hero animations only change transform and opacity,
-   which the GPU composites without repainting, so they cost almost no CPU. */
-.aurora {
-  position: absolute;
-  border-radius: 9999px;
-  pointer-events: none;
-  will-change: transform;
-  animation: drift 24s ease-in-out infinite alternate;
-}
-@keyframes drift {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(40px, 30px, 0) scale(1.08); }
-  100% { transform: translate3d(-30px, 10px, 0) scale(0.96); }
+/* The model window leans back slightly on large screens and straightens under the pointer. */
+@media (min-width: 1024px) {
+  .hero-tilt {
+    transform: perspective(1600px) rotateY(-7deg) rotateX(2deg) rotate(1.2deg);
+    transition: transform 0.5s ease;
+  }
+  .hero-tilt:hover {
+    transform: perspective(1600px) rotateY(-2deg);
+  }
 }
 
-/* The scan frame of the logo: four blue-to-cyan corners around an image. */
-.scan-frame > i {
-  position: absolute;
-  width: 14%;
-  aspect-ratio: 1;
-  border: 3px solid;
-  pointer-events: none;
-  animation: frame-pulse 3.2s ease-in-out infinite;
-}
-.scan-frame > i:nth-child(1) { top: -6px; left: -6px; border-color: #1466f2; border-right: 0; border-bottom: 0; border-top-left-radius: 14px; }
-.scan-frame > i:nth-child(2) { top: -6px; right: -6px; border-color: #00d0e0; border-left: 0; border-bottom: 0; border-top-right-radius: 14px; }
-.scan-frame > i:nth-child(3) { bottom: -6px; left: -6px; border-color: #1466f2; border-right: 0; border-top: 0; border-bottom-left-radius: 14px; }
-.scan-frame > i:nth-child(4) { bottom: -6px; right: -6px; border-color: #00d0e0; border-left: 0; border-top: 0; border-bottom-right-radius: 14px; }
-/* Hero example, one 10 s cycle: the beam scans the photo (step 1), the defect is marked (2), then the heatmap (3).
+/* Example in the window, one 8 s cycle: the beam scans the photo inside the corners (step 1), then the model's
+   real result is shown (step 2). Only transform and opacity change, which the GPU composites without repainting.
    The resting opacities show step 2, the useful frame when animations are switched off. */
-.hero-step-1,
-.hero-step-3 {
+.hero-step-1 {
   opacity: 0;
+  animation: hero-step-1 8s linear infinite;
 }
-.hero-step-1 { animation: hero-step-1 10s linear infinite; }
-.hero-step-2 { animation: hero-step-2 10s linear infinite; }
-.hero-step-3 { animation: hero-step-3 10s linear infinite; }
+.hero-step-2 {
+  animation: hero-step-2 8s linear infinite;
+}
 @keyframes hero-step-1 {
-  0%, 30% { opacity: 1; }
-  34%, 96% { opacity: 0; }
+  0%, 42% { opacity: 1; }
+  48%, 94% { opacity: 0; }
   100% { opacity: 1; }
 }
 @keyframes hero-step-2 {
-  0%, 30% { opacity: 0; }
-  34%, 64% { opacity: 1; }
-  68%, 100% { opacity: 0; }
-}
-@keyframes hero-step-3 {
-  0%, 64% { opacity: 0; }
-  68%, 96% { opacity: 1; }
+  0%, 42% { opacity: 0; }
+  48%, 94% { opacity: 1; }
   100% { opacity: 0; }
 }
 .hero-beam {
   opacity: 0;
-  animation: hero-beam 10s ease-in-out infinite;
+  animation: hero-beam 8s ease-in-out infinite;
 }
 @keyframes hero-beam {
   0% { transform: translateY(-100%); opacity: 0; }
-  3%, 27% { opacity: 1; }
-  31%, 100% { transform: translateY(740%); opacity: 0; }
+  3%, 36% { opacity: 1; }
+  42%, 100% { transform: translateY(800%); opacity: 0; }
 }
-@keyframes frame-pulse {
-  0%, 100% { opacity: 0.75; }
-  50% { opacity: 1; }
+.scan-corners > i {
+  position: absolute;
+  width: 8%;
+  aspect-ratio: 1;
+  border: 2px solid rgba(105, 216, 239, 0.9);
 }
+.scan-corners > i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.scan-corners > i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.scan-corners > i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.scan-corners > i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
 
 @keyframes scan {
   0% { transform: translateY(-10%); opacity: 0; }

@@ -72,7 +72,7 @@ export function HowItWorks() {
           <ol className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2 lg:grid-cols-3">
             {PIPELINE.map(([title, text], i) => (
               <li key={title} className="flex gap-3">
-                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[image:var(--grad-btn)] text-xs font-bold text-white">{i + 1}</span>
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[image:var(--grad-btn)] text-xs font-bold text-[var(--btn-ink)]">{i + 1}</span>
                 <div>
                   <p className="font-semibold text-ink">{title}</p>
                   <p className="mt-1 text-sm leading-relaxed text-ink-2">{text}</p>
