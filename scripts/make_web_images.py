@@ -75,7 +75,7 @@ def og_image(mark: Image.Image) -> Image.Image:
     d.text((84, 330), "automatic defect reports", font=font("segoeui.ttf", 36), fill=(214, 220, 240))
     d.text((84, 400), "Hole · Stain · Broken thread", font=font("segoeui.ttf", 26),
            fill=LOGO_TEAL)
-    d.text((84, 530), "CNN from scratch vs MobileNetV2  ·  Grad-CAM  ·  runs in the browser",
+    d.text((84, 530), "CNN from scratch vs MobileNetV2  ·  activation heatmaps  ·  runs in the browser",
            font=font("segoeui.ttf", 24), fill=(150, 160, 190))
     return img.convert("RGB")
 

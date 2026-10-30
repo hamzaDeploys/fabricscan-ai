@@ -75,10 +75,11 @@ def verify_onnx(model: keras.Model, onnx_path: Path, images: np.ndarray) -> dict
 
 
 def write_model_meta(path: Path, *, model_key: str, architecture: str, cam_shape: list[int], demo: bool,
-                     test_accuracy: float | None, created: str, img_size: int = IMG_SIZE) -> None:
+                     test_accuracy: float | None, created: str, img_size: int = IMG_SIZE,
+                     model_file: str = "fabricscan.onnx") -> None:
     """model_meta.json: everything the website needs to run the ONNX model correctly."""
     meta = {
-        "model_file": "fabricscan.onnx",
+        "model_file": model_file,
         "model_key": model_key,
         "architecture": architecture,
         "demo": demo,

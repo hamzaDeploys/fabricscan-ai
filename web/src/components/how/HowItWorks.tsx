@@ -37,7 +37,7 @@ const PIPELINE = [
   ["Leakage-free split", "70 / 15 / 15, keeping every shot of a physical sample in the same split."],
   ["Augmentation", "Rotation, flips, zoom, brightness, contrast and noise; no colour shifts, because colour is evidence."],
   ["Two models", "A custom CNN trained from scratch and MobileNetV2 fine-tuned from ImageNet, compared on the same test set."],
-  ["Export", "The better model is converted to ONNX and verified to give the same outputs as TensorFlow."],
+  ["Export", "Both models are converted to ONNX and verified to give the same outputs as TensorFlow. The better one is the default in the demo."],
 ];
 
 export function HowItWorks() {
@@ -51,13 +51,13 @@ export function HowItWorks() {
           {STEPS.map(({ icon: Icon, title, text }, i) => (
             <motion.li
               key={title}
-              className="card relative p-5"
+              className="card card-hover relative p-5"
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.07 }}
             >
-              <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
+              <span className="icon-tile size-10">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <p className="mt-4 text-xs font-semibold text-muted">Step {i + 1}</p>
@@ -72,7 +72,7 @@ export function HowItWorks() {
           <ol className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2 lg:grid-cols-3">
             {PIPELINE.map(([title, text], i) => (
               <li key={title} className="flex gap-3">
-                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-surface-3 text-xs font-bold text-ink">{i + 1}</span>
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[image:var(--grad-btn)] text-xs font-bold text-white">{i + 1}</span>
                 <div>
                   <p className="font-semibold text-ink">{title}</p>
                   <p className="mt-1 text-sm leading-relaxed text-ink-2">{text}</p>

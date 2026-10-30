@@ -52,9 +52,9 @@ export function ImagePanel({ phase, preview, result, mode, onModeChange, canvasR
       type="button"
       onClick={onBrowse}
       disabled={busy}
-      className="group weave mx-auto flex aspect-square w-full max-w-[560px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-line bg-surface px-6 text-center transition-colors hover:border-brand hover:bg-brand-soft/40 disabled:opacity-60"
+      className="group weave mx-auto flex aspect-square w-full max-w-[560px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-line bg-surface px-6 text-center transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand hover:bg-brand-soft/40 hover:shadow-[var(--glow)] disabled:opacity-60"
     >
-      <span className="flex size-16 items-center justify-center rounded-2xl bg-brand-soft text-brand transition-transform group-hover:scale-105">
+      <span className="icon-tile size-16 rounded-2xl">
         <ImagePlus className="size-8" aria-hidden="true" />
       </span>
       <span className="mt-5 font-display text-xl font-semibold text-ink">Drop a fabric photo here</span>

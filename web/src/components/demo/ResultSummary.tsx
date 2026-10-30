@@ -105,6 +105,9 @@ export function ResultSummary({ result, canvasRef, refining, onRefine, onReset }
           <h3 className="mt-1 font-display text-3xl leading-tight font-bold tracking-tight text-ink" data-testid="predicted-label">
             {report.label}
           </h3>
+          <p className="mt-0.5 text-xs text-muted" data-testid="result-model">
+            Model: {report.modelName}
+          </p>
         </div>
         <button type="button" className="btn btn-ghost shrink-0 self-start px-2.5 py-2 text-xs" onClick={onReset} aria-label="New image" title="New image">
           <RotateCcw className="size-4" aria-hidden="true" />

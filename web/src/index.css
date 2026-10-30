@@ -2,27 +2,33 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Design tokens (light) ---------- */
+/* ---------- Design tokens (light) ----------
+   Colours come from the logo: royal blue (#1466f2), deep navy (#011986) and scan cyan (#00e0d0).
+   Text colours keep at least 4.5:1 contrast; the bright cyan is decorative only. */
 :root {
   color-scheme: light;
-  --surface: #fbfaf7; /* unbleached cotton */
+  --surface: #f5f8fd;
   --surface-2: #ffffff;
-  --surface-3: #f2f0ea;
-  --ink: #12141c;
-  --ink-2: #444959;
-  --muted: #646a7b;
-  --line: #e4e1d8;
-  --brand: #3446c4; /* indigo dye */
-  --brand-soft: #e8ebfb;
-  --btn: #3446c4;
-  --accent: #c9821f; /* saffron thread (text-safe) */
-  --accent-bright: #f2b85b;
+  --surface-3: #ebf1fa;
+  --ink: #0b1533; /* logo navy */
+  --ink-2: #3c4a6b;
+  --muted: #5d6a88;
+  --line: #dbe3f0;
+  --brand: #1557e6; /* logo blue */
+  --brand-soft: #e5edfd;
+  --btn: #1557e6;
+  --accent: #08807a; /* logo cyan, darkened for text */
+  --accent-bright: #19e3cf; /* logo cyan */
+  --grad-btn: linear-gradient(120deg, #1557e6 0%, #0a72c4 60%, #0e7490 100%);
+  --grad-text: linear-gradient(100deg, #1557e6 0%, #0a72c4 45%, #08807a 100%);
+  --grad-line: linear-gradient(90deg, #1466f2, #00e0d0);
+  --glow: 0 10px 30px -10px color-mix(in oklab, #1466f2 55%, transparent);
 
   /* charts: validated categorical slots 1-2, chart chrome */
   --chart-1: #2a78d6;
   --chart-2: #eb6834;
-  --chart-grid: #e1e0d9;
-  --chart-axis: #c3c2b7;
+  --chart-grid: #dfe6f1;
+  --chart-axis: #c2cbdb;
 
   /* severity (status palette: icon + label always accompany the colour) */
   --sev-none: #0ca30c;
@@ -38,23 +44,26 @@
 /* ---------- Design tokens (dark) ---------- */
 .dark {
   color-scheme: dark;
-  --surface: #0e1017;
-  --surface-2: #151925;
-  --surface-3: #1c2130;
-  --ink: #eef0f6;
-  --ink-2: #b9bdcc;
-  --muted: #8f95a8;
-  --line: #272d3e;
-  --brand: #8d9bff;
-  --brand-soft: #1d2346;
-  --btn: #5466e8;
-  --accent: #f2b85b;
-  --accent-bright: #f2b85b;
+  --surface: #070c1f;
+  --surface-2: #0d1530;
+  --surface-3: #142043;
+  --ink: #eaf0ff;
+  --ink-2: #b4c0dd;
+  --muted: #8794b5;
+  --line: #1d2a4f;
+  --brand: #7aa5ff;
+  --brand-soft: #13224d;
+  --btn: #1f5ff0;
+  --accent: #3ee8d4;
+  --accent-bright: #3ee8d4;
+  --grad-btn: linear-gradient(120deg, #1f5ff0 0%, #0a72c4 60%, #0e7490 100%);
+  --grad-text: linear-gradient(100deg, #7aa5ff 0%, #5cc8ff 45%, #3ee8d4 100%);
+  --glow: 0 10px 34px -8px color-mix(in oklab, #00e0d0 40%, transparent);
 
   --chart-1: #3987e5;
   --chart-2: #d95926;
-  --chart-grid: #2c2c2a;
-  --chart-axis: #383835;
+  --chart-grid: #1d2a4f;
+  --chart-axis: #2d3b66;
 
   --sev-none-ink: #5fd35f;
   --sev-low-ink: #ffcf5c;
@@ -105,23 +114,55 @@
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
   .card {
-    @apply rounded-2xl border border-line bg-surface-2 shadow-[0_1px_2px_rgba(16,18,28,0.04)];
+    @apply rounded-2xl border border-line bg-surface-2 shadow-[0_1px_2px_rgba(11,21,51,0.05),0_12px_28px_-20px_rgba(20,70,170,0.28)];
+  }
+  /* cards that respond to the pointer: lift, brand border and a soft glow */
+  .card-hover {
+    @apply transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-[color-mix(in_oklab,var(--brand)_45%,var(--line))];
+  }
+  .card-hover:hover {
+    box-shadow: var(--glow);
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-[background-color,color,box-shadow,transform,filter] duration-200 disabled:cursor-not-allowed disabled:opacity-50;
   }
   /* use together with .btn, e.g. class="btn btn-primary" */
   .btn-primary {
-    @apply bg-btn text-white hover:brightness-110;
+    @apply relative overflow-hidden text-white hover:-translate-y-px hover:brightness-110 active:translate-y-0;
+    background: var(--grad-btn);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset, var(--glow);
+  }
+  /* a light sweep across the button on hover */
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%) skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+  .btn-primary:hover::after {
+    transform: translateX(120%) skewX(-20deg);
   }
   .btn-secondary {
-    @apply border border-line bg-surface-2 text-ink hover:bg-surface-3;
+    @apply border border-line bg-surface-2 text-ink hover:border-[color-mix(in_oklab,var(--brand)_40%,var(--line))] hover:bg-surface-3;
   }
   .btn-ghost {
     @apply text-ink-2 hover:bg-surface-3 hover:text-ink;
   }
   .eyebrow {
-    @apply font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase;
+    @apply inline-flex items-center gap-2.5 font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad-line);
   }
   .section-title {
     @apply font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl;
@@ -129,8 +170,26 @@
   .chip {
     @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1 text-xs font-medium text-ink-2;
   }
+  .select {
+    @apply cursor-pointer appearance-none rounded-xl border border-line bg-surface-2 py-2 pr-9 pl-3 text-sm font-semibold text-ink transition-colors hover:border-[color-mix(in_oklab,var(--brand)_45%,var(--line))] disabled:cursor-not-allowed disabled:opacity-60;
+  }
   .skip-link {
     @apply sr-only rounded-lg bg-btn px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100];
+  }
+  /* blue-to-cyan text, as in the logo; both ends keep text contrast */
+  .text-gradient {
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* an icon tile in brand colours */
+  .icon-tile {
+    @apply flex items-center justify-center rounded-xl bg-brand-soft text-brand transition-transform duration-300;
+  }
+  .card-hover:hover .icon-tile,
+  .group:hover .icon-tile {
+    transform: scale(1.08) rotate(-4deg);
   }
 }
 
@@ -141,6 +200,77 @@
     repeating-linear-gradient(90deg, color-mix(in oklab, var(--ink) 5%, transparent) 0 1px, transparent 1px 9px);
 }
 
+/* The hero is navy in both themes (class "dark" on the section), like the logo on a dark background. */
+.hero-bg {
+  background: linear-gradient(165deg, #070c1f 0%, #0a1438 58%, #07192f 100%);
+}
+
+/* Soft blue and cyan light behind the hero, drifting slowly. Hero animations only change transform and opacity,
+   which the GPU composites without repainting, so they cost almost no CPU. */
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  will-change: transform;
+  animation: drift 24s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, 30px, 0) scale(1.08); }
+  100% { transform: translate3d(-30px, 10px, 0) scale(0.96); }
+}
+
+/* The scan frame of the logo: four blue-to-cyan corners around an image. */
+.scan-frame > i {
+  position: absolute;
+  width: 14%;
+  aspect-ratio: 1;
+  border: 3px solid;
+  pointer-events: none;
+  animation: frame-pulse 3.2s ease-in-out infinite;
+}
+.scan-frame > i:nth-child(1) { top: -6px; left: -6px; border-color: #1466f2; border-right: 0; border-bottom: 0; border-top-left-radius: 14px; }
+.scan-frame > i:nth-child(2) { top: -6px; right: -6px; border-color: #00d0e0; border-left: 0; border-bottom: 0; border-top-right-radius: 14px; }
+.scan-frame > i:nth-child(3) { bottom: -6px; left: -6px; border-color: #1466f2; border-right: 0; border-top: 0; border-bottom-left-radius: 14px; }
+.scan-frame > i:nth-child(4) { bottom: -6px; right: -6px; border-color: #00d0e0; border-left: 0; border-top: 0; border-bottom-right-radius: 14px; }
+/* Hero example, one 10 s cycle: the beam scans the photo (step 1), the defect is marked (2), then the heatmap (3).
+   The resting opacities show step 2, the useful frame when animations are switched off. */
+.hero-step-1,
+.hero-step-3 {
+  opacity: 0;
+}
+.hero-step-1 { animation: hero-step-1 10s linear infinite; }
+.hero-step-2 { animation: hero-step-2 10s linear infinite; }
+.hero-step-3 { animation: hero-step-3 10s linear infinite; }
+@keyframes hero-step-1 {
+  0%, 30% { opacity: 1; }
+  34%, 96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes hero-step-2 {
+  0%, 30% { opacity: 0; }
+  34%, 64% { opacity: 1; }
+  68%, 100% { opacity: 0; }
+}
+@keyframes hero-step-3 {
+  0%, 64% { opacity: 0; }
+  68%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.hero-beam {
+  opacity: 0;
+  animation: hero-beam 10s ease-in-out infinite;
+}
+@keyframes hero-beam {
+  0% { transform: translateY(-100%); opacity: 0; }
+  3%, 27% { opacity: 1; }
+  31%, 100% { transform: translateY(740%); opacity: 0; }
+}
+@keyframes frame-pulse {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
 @keyframes scan {
   0% { transform: translateY(-10%); opacity: 0; }
   10% { opacity: 1; }
@@ -149,6 +279,26 @@
 }
 .scan-line {
   animation: scan 3.2s ease-in-out infinite;
+}
+/* the bright beam in the middle of the scan band, like the line across the logo */
+.scan-line::after,
+.hero-beam::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #9ffcff 20%, #ffffff 50%, #9ffcff 80%, transparent);
+  box-shadow: 0 0 12px 2px rgba(0, 224, 208, 0.75);
+}
+
+/* The navbar logo glows on hover. */
+.logo-mark {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+a:hover .logo-mark {
+  transform: rotate(-6deg) scale(1.06);
+  filter: drop-shadow(0 0 8px rgba(0, 224, 208, 0.55));
 }
 
 @media (prefers-reduced-motion: reduce) {

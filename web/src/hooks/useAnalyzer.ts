@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { describe, type DefectReport } from "../lib/descriptionEngine";
 import { classMap, localize, type Localization } from "../lib/localization";
-import { loadModel, predict, type LoadedModel, type Prediction } from "../lib/model";
+import { DEFAULT_MODEL, loadModel, predict, type LoadedModel, type Prediction } from "../lib/model";
 import { occlusionMap } from "../lib/occlusion";
 import { ImageInputError, prepareImage, validateFile, type PreparedImage } from "../lib/preprocess";
 
@@ -55,6 +55,8 @@ export function useAnalyzer() {
   const [preview, setPreview] = useState<string | null>(null); // object URL of the photo being analysed
   const previewUrl = useRef<string | null>(null);
   const run = useRef(0);
+  const [metaFile, setMetaFile] = useState(DEFAULT_MODEL);
+  const activeModel = useRef(DEFAULT_MODEL);
 
   const showPreview = useCallback((blob: Blob | null) => {
     if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
@@ -64,13 +66,14 @@ export function useAnalyzer() {
   useEffect(() => () => showPreview(null), [showPreview]);
 
   const ensureModel = useCallback(async () => {
+    const wanted = activeModel.current;
     setModelState((s) => (s === "ready" ? s : "loading"));
     try {
-      const model = await loadModel();
-      setModelState("ready");
+      const model = await loadModel(wanted);
+      if (wanted === activeModel.current) setModelState("ready");
       return model;
     } catch (err) {
-      setModelState("error");
+      if (wanted === activeModel.current) setModelState("error");
       throw err;
     }
   }, []);
@@ -78,6 +81,29 @@ export function useAnalyzer() {
   const preload = useCallback(() => {
     ensureModel().catch(() => undefined);
   }, [ensureModel]);
+
+  const analyzeImage = useCallback(
+    async (image: PreparedImage, sourceLabel: string, id: number) => {
+      setPhase("loading-model");
+      const model = await ensureModel();
+      if (id !== run.current) return;
+      setPhase("analyzing");
+      const start = performance.now();
+      const [prediction] = await predict(model, [image.pixels]);
+      const inferenceMs = performance.now() - start;
+      const cls = argmax(prediction.probs);
+      const [h, w, k] = prediction.camShape;
+      const loc =
+        model.meta.class_names[cls] === "good"
+          ? null
+          : localize(classMap(prediction.cam, h, w, k, cls), h, w, image.rgba, image.size, "cam");
+      const report = buildReport(model, prediction.probs, loc);
+      if (id !== run.current) return;
+      setResult({ image, prediction, loc, report, inferenceMs, sourceLabel, refined: false });
+      setPhase("done");
+    },
+    [ensureModel],
+  );
 
   const analyze = useCallback(
     async (blob: Blob, sourceLabel: string) => {
@@ -92,29 +118,35 @@ export function useAnalyzer() {
           if (problem) throw new ImageInputError(problem);
         }
         const image = await prepareImage(blob);
-        setPhase("loading-model");
-        const model = await ensureModel();
-        setPhase("analyzing");
-        const start = performance.now();
-        const [prediction] = await predict(model, [image.pixels]);
-        const inferenceMs = performance.now() - start;
-        const cls = argmax(prediction.probs);
-        const [h, w, k] = prediction.camShape;
-        const loc =
-          model.meta.class_names[cls] === "good"
-            ? null
-            : localize(classMap(prediction.cam, h, w, k, cls), h, w, image.rgba, image.size, "cam");
-        const report = buildReport(model, prediction.probs, loc);
-        if (id !== run.current) return;
-        setResult({ image, prediction, loc, report, inferenceMs, sourceLabel, refined: false });
-        setPhase("done");
+        await analyzeImage(image, sourceLabel, id);
       } catch (err) {
         if (id !== run.current) return;
         setError(messageFor(err));
         setPhase("error");
       }
     },
-    [ensureModel, showPreview],
+    [analyzeImage, showPreview],
+  );
+
+  /** Switch model. A photo already on screen is analysed again, so the models can be compared on it. */
+  const chooseModel = useCallback(
+    (file: string) => {
+      activeModel.current = file;
+      setMetaFile(file);
+      setModelState("idle");
+      setRefining(null);
+      if (phase !== "done" || !result) {
+        ensureModel().catch(() => undefined);
+        return;
+      }
+      const id = ++run.current;
+      analyzeImage(result.image, result.sourceLabel, id).catch((err: unknown) => {
+        if (id !== run.current) return;
+        setError(messageFor(err));
+        setPhase("error");
+      });
+    },
+    [analyzeImage, ensureModel, phase, result],
   );
 
   /** Re-localise with the slower, model-agnostic occlusion map. */
@@ -152,5 +184,5 @@ export function useAnalyzer() {
     setPhase("idle");
   }, [showPreview]);
 
-  return { phase, modelState, error, result, refining, preview, analyze, refine, reset, preload };
+  return { phase, modelState, error, result, refining, preview, metaFile, analyze, chooseModel, refine, reset, preload };
 }

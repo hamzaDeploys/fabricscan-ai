@@ -27,4 +27,5 @@ export const DOWNLOADS = {
   dataset: "/downloads/fabricscan-dataset.zip",
   model: "/models/fabricscan.onnx",
   modelMeta: "/models/model_meta.json",
+  modelList: "/models/models.json",
 };

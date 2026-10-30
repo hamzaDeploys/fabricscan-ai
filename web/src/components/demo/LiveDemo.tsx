@@ -1,8 +1,9 @@
-import { Camera, CircleAlert, Crosshair, FileText, Gauge, Layers, RotateCcw, ShieldCheck, Upload } from "lucide-react";
+import { BrainCircuit, Camera, ChevronDown, CircleAlert, Crosshair, FileText, Gauge, Layers, RotateCcw, ShieldCheck, Upload } from "lucide-react";
 import { useEffect, useRef, useState, type DragEvent } from "react";
 
 import { useAnalyzer } from "../../hooks/useAnalyzer";
 import { useSiteData } from "../../hooks/useSiteData";
+import { fmtMB, pct } from "../../lib/format";
 import type { OverlayMode } from "../../lib/overlay";
 import type { SampleImage } from "../../types";
 import { SectionHeader } from "../layout/SectionHeader";
@@ -22,8 +23,8 @@ const YOU_GET = [
 const hasFiles = (e: DragEvent) => Array.from(e.dataTransfer?.types ?? []).includes("Files");
 
 export function LiveDemo() {
-  const { meta, samples } = useSiteData();
-  const { phase, modelState, error, result, refining, preview, analyze, refine, reset, preload } = useAnalyzer();
+  const { meta, metrics, models, samples } = useSiteData();
+  const { phase, modelState, error, result, refining, preview, metaFile, analyze, chooseModel, refine, reset, preload } = useAnalyzer();
   const [cameraOpen, setCameraOpen] = useState(false);
   const [mode, setMode] = useState<OverlayMode>("spotlight");
   const [dragging, setDragging] = useState(false);
@@ -76,6 +77,9 @@ export function LiveDemo() {
     },
   };
 
+  const chosen = models.find((m) => m.meta === metaFile);
+  const chosenStats = chosen && metrics?.models[chosen.key];
+
   const modelText =
     modelState === "ready" ? "ready" : modelState === "loading" ? "loading…" : modelState === "error" ? "failed to load" : "not loaded yet";
   const dot =
@@ -85,11 +89,43 @@ export function LiveDemo() {
     <section id="demo" aria-labelledby="demo-title" className="border-t border-line bg-surface-3/40 py-20 sm:py-24">
       <div className="container-page">
         <SectionHeader eyebrow="Live demo" title="Analyse a fabric photo" id="demo-title">
-          Upload a photo, take one with your camera or pick a sample. The model runs inside your browser, so your photo is
-          never uploaded anywhere.
+          Choose a model, then upload a photo, take one with your camera or pick a sample. Switching the model checks the
+          same photo again. Everything runs inside your browser, so your photo is never uploaded anywhere.
         </SectionHeader>
 
         <div className="card relative mt-10 overflow-clip" {...dropHandlers}>
+          {/* Which model answers */}
+          {models.length > 1 && (
+            <div className="flex flex-col gap-2 border-b border-line bg-surface-3/50 p-4 sm:flex-row sm:items-center sm:gap-3 sm:px-5 sm:py-3">
+              <label htmlFor="model-select" className="flex shrink-0 items-center gap-2 text-sm font-semibold text-ink">
+                <BrainCircuit className="size-4 text-brand" aria-hidden="true" /> Model
+              </label>
+              <span className="relative block sm:shrink-0">
+                <select
+                  id="model-select"
+                  className="select w-full"
+                  data-testid="model-select"
+                  value={metaFile}
+                  disabled={busy}
+                  onChange={(e) => chooseModel(e.target.value)}
+                >
+                  {models.map((m) => (
+                    <option key={m.key} value={m.meta}>
+                      {m.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted" aria-hidden="true" />
+              </span>
+              {chosenStats && (
+                <p className="text-xs leading-relaxed text-muted sm:ml-1" data-testid="model-facts">
+                  {pct(chosenStats.test.accuracy)} test accuracy · macro F1 {chosenStats.test.f1_macro.toFixed(2)} · {fmtMB(chosenStats.onnx_size_mb)}
+                  {chosen.key === metrics?.best_model ? " · the better model" : " · the weaker model, expect more mistakes"}
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Toolbar: input options */}
           <div className="flex flex-col gap-4 border-b border-line p-4 sm:p-5 lg:flex-row lg:items-center lg:gap-6">
             <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -138,7 +174,7 @@ export function LiveDemo() {
                   <ul className="mt-5 space-y-4">
                     {YOU_GET.map(({ icon: Icon, title, text }) => (
                       <li key={title} className="flex items-start gap-3">
-                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                        <span className="icon-tile size-9 shrink-0">
                           <Icon className="size-[18px]" aria-hidden="true" />
                         </span>
                         <span>
@@ -177,7 +213,7 @@ export function LiveDemo() {
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-line bg-surface px-5 py-2.5 text-xs text-muted">
             <span className="flex items-center gap-2" data-testid="model-status">
               <span className={`size-2 rounded-full ${modelState === "loading" ? "animate-pulse" : ""}`} style={{ background: dot }} aria-hidden="true" />
-              {meta ? meta.architecture : "Model"} · {modelText}
+              {chosen?.name ?? meta?.architecture ?? "Model"} · {modelText}
               {meta?.demo ? " · demo" : ""}
             </span>
             <span className="flex items-center gap-1.5">

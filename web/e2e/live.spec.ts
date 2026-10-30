@@ -21,5 +21,10 @@ test("deployed site loads the model and analyses a photo", async ({ page }) => {
   await page.getByTestId("file-input").setInputFiles("public/samples/stain-1.jpg");
   await expect(page.getByTestId("predicted-label")).toContainText("Stain");
   console.log(`uploaded photo analysed after ${seconds()} s`);
+
+  await page.getByTestId("model-select").selectOption({ label: "Custom CNN (from scratch)" });
+  await expect(page.getByTestId("result-model")).toContainText("Custom CNN");
+  await expect(page.getByTestId("model-status")).toContainText("ready");
+  console.log(`second model answered after ${seconds()} s`);
   expect(errors, errors.join("\n")).toHaveLength(0);
 });

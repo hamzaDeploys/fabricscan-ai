@@ -54,7 +54,7 @@ export function DatasetSection() {
               <div className="weave pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
               <div className="relative">
                 <div className="flex items-start gap-4">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-btn text-white shadow-md">
+                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] text-white shadow-md">
                     <FolderArchive className="size-6" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
@@ -111,7 +111,7 @@ export function DatasetSection() {
             <h3 className="font-display text-lg font-semibold text-ink">Sources and licences</h3>
             <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2" aria-label="Image sources">
               {download.sources.map((s, i) => (
-                <motion.li key={s.ref || s.title} {...reveal} transition={{ duration: 0.4, delay: (i % 2) * 0.06 }} className="card flex flex-col p-5">
+                <motion.li key={s.ref || s.title} {...reveal} transition={{ duration: 0.4, delay: (i % 2) * 0.06 }} className="card card-hover flex flex-col p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-display font-semibold text-ink">{s.title}</p>
@@ -149,9 +149,9 @@ export function DatasetSection() {
             const sample = samples.find((s) => s.class === key);
             const count = dataset?.totals[key];
             return (
-              <motion.li key={key} {...reveal} transition={{ duration: 0.4, delay: (i % 4) * 0.06 }} className="card overflow-hidden">
-                <div className="aspect-[4/3] bg-surface-3">
-                  {sample && <img src={sample.file} alt={`Example of the class ${info.label}`} loading="lazy" className="size-full object-cover" />}
+              <motion.li key={key} {...reveal} transition={{ duration: 0.4, delay: (i % 4) * 0.06 }} className="card card-hover group overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden bg-surface-3">
+                  {sample && <img src={sample.file} alt={`Example of the class ${info.label}`} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />}
                 </div>
                 <div className="p-5">
                   <h4 className="font-display text-lg font-semibold text-ink">{info.label}</h4>

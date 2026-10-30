@@ -77,12 +77,15 @@ export async function renderReportCanvas(report: DefectReport, annotated: HTMLCa
   c.width = W;
   c.height = H;
 
-  ctx.fillStyle = "#fbfaf7";
+  ctx.fillStyle = "#f5f8fd";
   ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = "#3446c4";
+  const band = ctx.createLinearGradient(0, 0, W, 0);
+  band.addColorStop(0, "#1466f2");
+  band.addColorStop(1, "#00d0e0");
+  ctx.fillStyle = band;
   ctx.fillRect(0, 0, W, 8);
   ctx.drawImage(annotated, pad, pad + 16, imgSize, imgSize);
-  ctx.strokeStyle = "#e4e1d8";
+  ctx.strokeStyle = "#dbe3f0";
   ctx.lineWidth = 2;
   ctx.strokeRect(pad, pad + 16, imgSize, imgSize);
 
@@ -93,11 +96,11 @@ export async function renderReportCanvas(report: DefectReport, annotated: HTMLCa
     ctx.drawImage(logo, textX, y - 30, 40, 40);
     eyebrowX = textX + 52;
   }
-  ctx.fillStyle = "#c9821f";
+  ctx.fillStyle = "#08807a";
   ctx.font = `600 16px ${display}`;
   ctx.fillText("FABRICSCAN AI · INSPECTION REPORT", eyebrowX, y - 4);
   y += 54;
-  ctx.fillStyle = "#12141c";
+  ctx.fillStyle = "#0b1533";
   ctx.font = `700 42px ${display}`;
   ctx.fillText(report.label, textX, y);
   y += 44;
@@ -110,9 +113,9 @@ export async function renderReportCanvas(report: DefectReport, annotated: HTMLCa
   ctx.beginPath();
   ctx.roundRect(textX, y - 24, pw, 36, 18);
   ctx.fill();
-  ctx.fillStyle = report.severity === "Low" ? "#12141c" : "#ffffff";
+  ctx.fillStyle = report.severity === "Low" ? "#0b1533" : "#ffffff";
   ctx.fillText(pill, textX + 18, y);
-  ctx.fillStyle = "#444959";
+  ctx.fillStyle = "#3c4a6b";
   ctx.font = `500 18px ${sans}`;
   ctx.fillText(`Confidence ${pct(report.confidence)}`, textX + pw + 18, y);
   y += 44;
@@ -121,32 +124,32 @@ export async function renderReportCanvas(report: DefectReport, annotated: HTMLCa
     y += 40;
   }
 
-  ctx.fillStyle = "#12141c";
+  ctx.fillStyle = "#0b1533";
   ctx.font = `20px ${sans}`;
   for (const line of summary) {
     ctx.fillText(line, textX, y);
     y += 30;
   }
-  ctx.fillStyle = "#444959";
+  ctx.fillStyle = "#3c4a6b";
   for (const line of note) {
     ctx.fillText(line, textX, y);
     y += 30;
   }
   if (causes.length) {
     y += 18;
-    ctx.fillStyle = "#12141c";
+    ctx.fillStyle = "#0b1533";
     ctx.font = `600 18px ${sans}`;
     ctx.fillText("Possible causes", textX, y);
     y += 32;
     ctx.font = `18px ${sans}`;
-    ctx.fillStyle = "#444959";
+    ctx.fillStyle = "#3c4a6b";
     for (const line of causes) {
       ctx.fillText(line, textX, y);
       y += 28;
     }
   }
 
-  ctx.fillStyle = "#646a7b";
+  ctx.fillStyle = "#5d6a88";
   ctx.font = `15px ${sans}`;
   const footer = `${report.createdAt} · ${report.modelName}${report.demo ? " · DEMO model (synthetic training data)" : ""} · runs in the browser`;
   ctx.fillText(footer, pad, H - 28);

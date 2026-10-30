@@ -18,7 +18,8 @@ export interface Prediction {
 }
 
 const BASE = import.meta.env.BASE_URL;
-let loading: Promise<LoadedModel> | null = null;
+export const DEFAULT_MODEL = "model_meta.json";
+const loading = new Map<string, Promise<LoadedModel>>(); // by model_meta file; a model is only loaded when chosen
 
 export async function fetchJson<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`, { cache: "no-cache" });
@@ -26,25 +27,27 @@ export async function fetchJson<T>(path: string): Promise<T> {
   return (await res.json()) as T;
 }
 
-export function loadModel(): Promise<LoadedModel> {
-  if (!loading) {
-    loading = (async () => {
+export function loadModel(metaFile = DEFAULT_MODEL): Promise<LoadedModel> {
+  let model = loading.get(metaFile);
+  if (!model) {
+    model = (async () => {
       // One thread. With several, ONNX Runtime starts its worker threads from the script it was bundled into; in the
       // production build that is the whole app, which crashes inside a worker ("document is not defined") and leaves
       // the model loading forever. MobileNetV2 is small enough that one thread is fast.
       ort.env.wasm.numThreads = 1;
-      const meta = await fetchJson<ModelMeta>("models/model_meta.json");
+      const meta = await fetchJson<ModelMeta>(`models/${metaFile}`);
       const session = await ort.InferenceSession.create(`${BASE}models/${meta.model_file}`, {
         executionProviders: ["wasm"],
         graphOptimizationLevel: "all",
       });
       return { session, meta };
     })().catch((err: unknown) => {
-      loading = null; // allow a retry
+      loading.delete(metaFile); // allow a retry
       throw err;
     });
+    loading.set(metaFile, model);
   }
-  return loading;
+  return model;
 }
 
 /** Run a batch of preprocessed images (each size*size*3 floats, RGB 0-255, NHWC). */

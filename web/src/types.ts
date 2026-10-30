@@ -14,6 +14,13 @@ export interface ModelMeta {
   test_accuracy: number | null;
 }
 
+/** web/public/models/models.json, written by fabricscan/workflow.py. The first entry is the default model. */
+export interface ModelChoice {
+  key: string; // key in metrics.json
+  name: string;
+  meta: string; // its model_meta file in models/
+}
+
 export interface ClassScores {
   precision: number;
   recall: number;

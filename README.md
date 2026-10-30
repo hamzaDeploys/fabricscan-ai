@@ -36,7 +36,7 @@ Test split: 155 images that were never used for training or model selection.
 
 | Model | Accuracy | Macro F1 | Parameters | ONNX size | CPU time / image |
 |---|---:|---:|---:|---:|---:|
-| MobileNetV2, transfer learning (deployed) | **81.3%** | 0.821 | 2.26 M | 8.9 MB | 12.1 ms |
+| MobileNetV2, transfer learning (website default) | **81.3%** | 0.821 | 2.26 M | 8.9 MB | 12.1 ms |
 | Custom CNN, trained from scratch | **68.4%** | 0.692 | 1.18 M | 4.7 MB | 5.4 ms |
 
 Per class, MobileNetV2 (transfer learning):
@@ -98,8 +98,9 @@ seed 42, TensorFlow 2.20 on a CPU.
 | Training | Adam 1e-3, up to 60 epochs | 12 epochs with the base frozen (Adam 1e-3), then the top 40 layers fine-tuned (Adam 1e-5, BatchNorm frozen) |
 | Regularisation | early stopping on validation loss (patience 10), learning rate halved on plateaus | early stopping (patience 6), learning rate halved on plateaus |
 
-The better model (highest macro F1 on the test split) is exported to ONNX (opset 17) with two outputs: the class
-probabilities and the class activation maps. The export is checked against Keras on test images.
+Both models are exported to ONNX (opset 17) with two outputs: the class probabilities and the class activation maps.
+The export is checked against Keras on test images. The better model (highest macro F1 on the test split) is the
+website's default, and a dropdown in the live demo switches to the other one, checking the same photo again.
 
 **Automatic description (in the browser):** the activation map of the predicted class, refined by colour contrast,
 gives the defect's zone (3 × 3 grid) and area; per-class area thresholds give the severity, and a small knowledge base

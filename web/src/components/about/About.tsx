@@ -94,12 +94,12 @@ function ProfileCard() {
   const filled = details.filter(([, , value]) => value);
   return (
     <div className="card overflow-hidden lg:sticky lg:top-24 lg:self-start" data-testid="profile-card">
-      <div className="relative h-24 bg-[linear-gradient(120deg,#2f3fb8,#5b4fd6_55%,#c9821f)]">
+      <div className="relative h-24 bg-[linear-gradient(120deg,#011986,#1466f2_50%,#00c2d0)]">
         <div className="weave absolute inset-0 opacity-40" aria-hidden="true" />
       </div>
       <div className="px-6 pb-6 sm:px-7">
         {SITE.author ? (
-          <div className="relative -mt-10 flex size-20 items-center justify-center rounded-2xl bg-btn font-display text-2xl font-bold text-white shadow-lg ring-4 ring-surface-2" aria-hidden="true">
+          <div className="relative -mt-10 flex size-20 items-center justify-center rounded-2xl bg-[image:var(--grad-btn)] font-display text-2xl font-bold text-white shadow-lg ring-4 ring-surface-2" aria-hidden="true">
             {initials(SITE.author)}
           </div>
         ) : (
@@ -162,8 +162,8 @@ export function About() {
             <p className="mt-3 leading-relaxed text-ink-2">
               FabricScan AI tests how far a small convolutional neural network, trained on real fabric and garment photos from public datasets, can
               automate the first step: deciding whether a fabric is defective, what kind of defect it has, where it is and
-              how serious it is. It compares a CNN trained from scratch with a transfer-learning model, deploys the better
-              one as a static website that needs no server, and writes the kind of note a quality inspector would write.
+              how serious it is. It compares a CNN trained from scratch with a transfer-learning model, deploys both as a
+              static website that needs no server (the better one by default), and writes the kind of note a quality inspector would write.
             </p>
 
             <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

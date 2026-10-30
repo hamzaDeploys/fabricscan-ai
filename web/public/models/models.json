@@ -1,0 +1,12 @@
+[
+  {
+    "key": "transfer",
+    "name": "MobileNetV2 (transfer learning)",
+    "meta": "model_meta.json"
+  },
+  {
+    "key": "scratch",
+    "name": "Custom CNN (from scratch)",
+    "meta": "scratch_cnn.json"
+  }
+]

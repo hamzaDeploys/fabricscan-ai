@@ -21,6 +21,22 @@ import numpy as np
 from . import config
 from .splitting import group_of, group_sources
 
+def publish_web_models(web_models: Path, models_dir: Path, entries: dict, best: str, demo: bool, created: str) -> None:
+    """The models the website's dropdown offers (models.json): the best first, as fabricscan.onnx + model_meta.json."""
+    from .export import write_model_meta
+
+    choices = []
+    for key in sorted(entries, key=lambda k: k != best):
+        file = MODEL_INFO[key]["file"]
+        onnx_name, meta_name = ("fabricscan.onnx", "model_meta.json") if key == best else (f"{file}.onnx", f"{file}.json")
+        shutil.copyfile(models_dir / f"{file}.onnx", web_models / onnx_name)
+        write_model_meta(web_models / meta_name, model_key=key, architecture=entries[key]["name"],
+                         cam_shape=entries[key]["onnx_check"]["cam_shape"], demo=demo,
+                         test_accuracy=entries[key]["test"]["accuracy"], created=created, model_file=onnx_name)
+        choices.append({"key": key, "name": entries[key]["name"], "meta": meta_name})
+    (web_models / "models.json").write_text(json.dumps(choices, indent=2), encoding="utf-8")
+
+
 MODEL_INFO = {
     "scratch": {
         "name": "Custom CNN (from scratch)",
@@ -121,7 +137,7 @@ def run_training(
 
     from .data import class_weights, list_split, make_dataset
     from .evaluation import compute_metrics, file_size_mb, keras_latency_ms, onnx_latency_ms, predict_dataset
-    from .export import export_onnx, verify_onnx, write_model_meta
+    from .export import export_onnx, verify_onnx
     from .seed import set_global_seed
     from .training import train_scratch, train_transfer
 
@@ -202,10 +218,7 @@ def run_training(
         (web_public / "models").mkdir(parents=True, exist_ok=True)
         (web_public / "data").mkdir(parents=True, exist_ok=True)
         best_onnx = models_dir / f"{MODEL_INFO[best]['file']}.onnx"
-        shutil.copyfile(best_onnx, web_public / "models" / "fabricscan.onnx")
-        write_model_meta(web_public / "models" / "model_meta.json", model_key=best,
-                         architecture=entries[best]["name"], cam_shape=entries[best]["onnx_check"]["cam_shape"],
-                         demo=demo, test_accuracy=entries[best]["test"]["accuracy"], created=created)
+        publish_web_models(web_public / "models", models_dir, entries, best, demo, created)
         shutil.copyfile(results_dir / "metrics.json", web_public / "data" / "metrics.json")
         if dataset_summary is not None and Path(dataset_summary).is_file():
             shutil.copyfile(dataset_summary, web_public / "data" / "dataset_summary.json")

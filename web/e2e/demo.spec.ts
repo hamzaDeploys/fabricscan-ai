@@ -56,6 +56,24 @@ test("every sample image is recognised as its own class", async ({ page }) => {
   }
 });
 
+test("the model dropdown switches model and checks the same photo again", async ({ page }) => {
+  const select = page.getByTestId("model-select");
+  await expect(select.locator("option")).toHaveCount(2);
+  await page.getByRole("button", { name: /Analyse sample image: Hole/ }).first().click();
+  await expect(page.getByTestId("result-model")).toContainText("MobileNetV2", { timeout: 60_000 });
+  await expect(page.getByTestId("model-facts")).toContainText("81.3%");
+
+  await select.selectOption({ label: "Custom CNN (from scratch)" });
+  await expect(page.getByTestId("result-model")).toContainText("Custom CNN", { timeout: 60_000 });
+  await expect(page.getByTestId("predicted-label")).toContainText("Hole");
+  await expect(page.getByTestId("model-facts")).toContainText("68.4%");
+  await expect(page.getByTestId("model-status")).toContainText("Custom CNN");
+  await expect(page.getByTestId("model-status")).toContainText("ready");
+
+  await select.selectOption({ label: "MobileNetV2 (transfer learning)" });
+  await expect(page.getByTestId("result-model")).toContainText("MobileNetV2");
+});
+
 test("report can be copied and downloaded as PNG and PDF", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.getByRole("button", { name: /Analyse sample image: Stain/ }).first().click();

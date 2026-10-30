@@ -23,13 +23,13 @@ function ResourceCard({ resource, index }: { resource: Resource; index: number }
   const ActionIcon = download ? Download : ExternalLink;
   return (
     <motion.li
-      className="card flex flex-col p-5"
+      className="card card-hover flex flex-col p-5"
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: (index % 3) * 0.06 }}
     >
-      <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
+      <span className="icon-tile size-10">
         <Icon className="size-5" aria-hidden="true" />
       </span>
       <h3 className="mt-4 font-display text-lg font-semibold text-ink">{title}</h3>
@@ -79,7 +79,7 @@ export function ProjectLinks() {
     {
       id: "weights",
       title: "Model weights",
-      text: "The trained model used on this page (ONNX). The Keras weights of both models are in the GitHub repository.",
+      text: "The default model on this page (ONNX). Both models, in ONNX and Keras format, are in the GitHub repository.",
       icon: BrainCircuit,
       url: DOWNLOADS.model,
       action: "Download model",

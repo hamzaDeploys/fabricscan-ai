@@ -6,7 +6,8 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-surface-2">
+    <footer className="dark relative border-t border-line bg-surface">
+      <div className="absolute inset-x-0 -top-px h-0.5 opacity-70" style={{ background: "var(--grad-line)" }} aria-hidden="true" />
       <div className="container-page flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
         <div className="max-w-md space-y-3">
           <Logo />

@@ -1,0 +1,39 @@
+{
+  "model_file": "scratch_cnn.onnx",
+  "model_key": "scratch",
+  "architecture": "Custom CNN (from scratch)",
+  "demo": false,
+  "created": "2026-10-27T16:38:27",
+  "input": {
+    "name": "image",
+    "layout": "NHWC",
+    "size": 224,
+    "range": [
+      0,
+      255
+    ],
+    "channels": "RGB"
+  },
+  "outputs": {
+    "probs": "probs",
+    "cam": "cam"
+  },
+  "cam_shape": [
+    14,
+    14,
+    4
+  ],
+  "class_names": [
+    "good",
+    "hole",
+    "stain",
+    "broken_thread"
+  ],
+  "display_names": {
+    "good": "Good (No Defect)",
+    "hole": "Hole",
+    "stain": "Stain / Oil Spot",
+    "broken_thread": "Broken Thread / Slub"
+  },
+  "test_accuracy": 0.6838709677419355
+}
