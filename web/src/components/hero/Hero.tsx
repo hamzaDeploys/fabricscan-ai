@@ -4,8 +4,8 @@ import { motion } from "motion/react";
 import { useSiteData } from "../../hooks/useSiteData";
 import { pct } from "../../lib/format";
 
-/** What this app really reports for samples/broken_thread-1.jpg with MobileNetV2; the images are its own output. */
-const EXAMPLE = { label: "Broken Thread / Slub", confidence: 0.997, severity: "High", location: "Center", area: "≈ 6.0%" };
+/** What this app really reports for public/hero/photo.webp with MobileNetV2; the images are its own output. */
+const EXAMPLE = { label: "Stain / Oil Spot", confidence: 0.991, severity: "High", location: "Center", area: "≈ 8.6%" };
 
 function HeroVisual() {
   return (
@@ -21,9 +21,9 @@ function HeroVisual() {
       <i />
       <div className="card overflow-hidden shadow-2xl shadow-black/40">
         <div className="relative aspect-[5/4] overflow-hidden bg-surface-3">
-          <img src="/hero/photo.jpg" alt="Dark fabric with a broken thread" width={520} height={416} className="absolute inset-0 size-full object-cover" />
-          <img src="/hero/spot.jpg" alt="" className="hero-step-2 absolute inset-0 size-full object-cover" />
-          <img src="/hero/heat.jpg" alt="" className="hero-step-3 absolute inset-0 size-full object-cover" />
+          <img src="/hero/photo.webp" alt="Close-up of a white T-shirt with orange stains" width={800} height={640} className="absolute inset-0 size-full object-cover" />
+          <img src="/hero/spot.webp" alt="" className="hero-step-2 absolute inset-0 size-full object-cover" />
+          <img src="/hero/heat.webp" alt="" className="hero-step-3 absolute inset-0 size-full object-cover" />
           <div className="hero-beam absolute inset-x-0 top-0 h-[14%] bg-gradient-to-b from-transparent via-[color-mix(in_oklab,var(--accent-bright)_45%,transparent)] to-transparent" />
           <span className="absolute top-3 left-3 rounded-lg bg-black/70 px-2.5 py-1 text-xs font-medium text-white" aria-hidden="true">
             <span className="hero-step-1 absolute inset-0 grid place-items-center">Scanning…</span>
@@ -66,7 +66,10 @@ function HeroVisual() {
               </div>
             ))}
           </dl>
-          <p className="mt-3 border-t border-line pt-2.5 text-[11px] text-muted">Real output of MobileNetV2 on a test photo from StitchingNet (CC BY-NC 4.0).</p>
+          <p className="mt-3 border-t border-line pt-2.5 text-[11px] text-muted">
+            Real MobileNetV2 output on a close-up crop of a photo outside the dataset.
+            <span className="block">Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)</span>
+          </p>
         </figcaption>
       </div>
     </motion.figure>

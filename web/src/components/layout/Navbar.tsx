@@ -1,5 +1,4 @@
 import { Menu, Moon, Sun, X } from "lucide-react";
-import { motion, useScroll, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { SITE } from "../../config/site";
@@ -19,8 +18,6 @@ const LINKS = [
 export function Navbar() {
   const { dark, toggle } = useTheme();
   const [open, setOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
     if (!open) return;
@@ -31,7 +28,6 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-surface/90 backdrop-blur-md">
-      <motion.div className="absolute inset-x-0 bottom-0 h-0.5 origin-left" style={{ scaleX: progress, background: "var(--grad-line)" }} aria-hidden="true" />
       <nav className="container-page flex h-16 items-center justify-between gap-4" aria-label="Main">
         <a href="#top" className="rounded-lg" aria-label="FabricScan AI, back to top">
           <Logo />
