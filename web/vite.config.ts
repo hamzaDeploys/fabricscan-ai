@@ -24,6 +24,7 @@ function projectLinks(): Plugin {
     ["All models in the demo (JSON)", DOWNLOADS.modelList],
     ["Project report", SITE.reportUrl],
     ["Presentation", SITE.presentationUrl],
+    ["Presentation video (MP4)", DOWNLOADS.video],
     ["YouTube video", SITE.youtubeUrl],
     ["LinkedIn", SITE.linkedinUrl],
   ];
@@ -46,7 +47,8 @@ function projectLinks(): Plugin {
       model: { onnx: DOWNLOADS.model, meta: DOWNLOADS.modelMeta, list: DOWNLOADS.modelList },
       report: SITE.reportUrl,
       presentation: SITE.presentationUrl,
-      video: SITE.youtubeUrl,
+      video: DOWNLOADS.video,
+      youtube: SITE.youtubeUrl,
       linkedin: SITE.linkedinUrl,
     },
     null,

@@ -26,5 +26,9 @@ test("deployed site loads the model and analyses a photo", async ({ page }) => {
   await expect(page.getByTestId("result-model")).toContainText("Custom CNN");
   await expect(page.getByTestId("model-status")).toContainText("ready");
   console.log(`second model answered after ${seconds()} s`);
+
+  await page.getByTestId("link-video").click();
+  await expect.poll(() => page.getByTestId("video-player").evaluate((v: HTMLVideoElement) => v.currentTime), { timeout: 60_000 }).toBeGreaterThan(0);
+  console.log(`video playing after ${seconds()} s`);
   expect(errors, errors.join("\n")).toHaveLength(0);
 });

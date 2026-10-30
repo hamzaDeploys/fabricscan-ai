@@ -1,11 +1,12 @@
-import { BrainCircuit, Database, Download, ExternalLink, FileText, Presentation } from "lucide-react";
+import { BrainCircuit, Clapperboard, Database, Download, ExternalLink, FileText, Play, Presentation } from "lucide-react";
 import { motion } from "motion/react";
 import type { ComponentType, SVGProps } from "react";
 
 import { DOWNLOADS, SITE } from "../../config/site";
 import { useSiteData } from "../../hooks/useSiteData";
-import { GitHubIcon, YouTubeIcon } from "../layout/icons";
+import { GitHubIcon } from "../layout/icons";
 import { SectionHeader } from "../layout/SectionHeader";
+import { useVideoLink } from "../layout/VideoDialog";
 
 interface Resource {
   id: string;
@@ -15,12 +16,14 @@ interface Resource {
   url: string;
   action: string;
   download?: boolean; // a file served by this site, saved instead of opened
+  video?: boolean; // plays in the popup
 }
 
 /** One resource card. Without a URL it stays visible but inactive ("Coming soon"). */
 function ResourceCard({ resource, index }: { resource: Resource; index: number }) {
-  const { id, title, text, icon: Icon, url, action, download } = resource;
-  const ActionIcon = download ? Download : ExternalLink;
+  const { id, title, text, icon: Icon, url, action, download, video } = resource;
+  const videoLink = useVideoLink();
+  const ActionIcon = video ? Play : download ? Download : ExternalLink;
   return (
     <motion.li
       className="card card-hover flex flex-col p-5"
@@ -36,10 +39,9 @@ function ResourceCard({ resource, index }: { resource: Resource; index: number }
       <p className="mt-1.5 flex-1 text-sm leading-relaxed text-ink-2">{text}</p>
       {url ? (
         <a
-          href={url}
           data-testid={`link-${id}`}
-          className={`btn mt-4 ${download ? "btn-primary" : "btn-secondary"}`}
-          {...(download ? { download: "" } : { target: "_blank", rel: "noopener noreferrer" })}
+          className={`btn mt-4 ${download || video ? "btn-primary" : "btn-secondary"}`}
+          {...(video ? videoLink : download ? { href: url, download: "" } : { href: url, target: "_blank", rel: "noopener noreferrer" })}
         >
           <ActionIcon className="size-4" aria-hidden="true" /> {action}
         </a>
@@ -104,10 +106,11 @@ export function ProjectLinks() {
     {
       id: "video",
       title: "Video",
-      text: "The presentation explained with a voice-over, on YouTube.",
-      icon: YouTubeIcon,
-      url: SITE.youtubeUrl,
-      action: "Watch on YouTube",
+      text: "The presentation explained with a voice-over. It plays right here on this page.",
+      icon: Clapperboard,
+      url: DOWNLOADS.video,
+      action: "Play video",
+      video: true,
     },
   ];
 

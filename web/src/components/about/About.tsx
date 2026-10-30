@@ -1,11 +1,12 @@
-import { BookOpen, GraduationCap, Rocket, Scale, UserRound, type LucideIcon } from "lucide-react";
+import { BookOpen, Clapperboard, GraduationCap, Rocket, Scale, UserRound, type LucideIcon } from "lucide-react";
 import type { ComponentType, CSSProperties, SVGProps } from "react";
 
-import { SITE } from "../../config/site";
+import { DOWNLOADS, SITE } from "../../config/site";
 import { DEFECTS } from "../../lib/defectKnowledge";
-import { GitHubIcon, LinkedInIcon, YouTubeIcon } from "../layout/icons";
+import { GitHubIcon, LinkedInIcon } from "../layout/icons";
 import { LogoMark } from "../layout/Logo";
 import { SectionHeader } from "../layout/SectionHeader";
+import { useVideoLink } from "../layout/VideoDialog";
 
 const HIGHLIGHTS = [
   { value: String(Object.keys(DEFECTS).length), label: "fabric classes" },
@@ -38,12 +39,13 @@ interface Social {
   url: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   color: string; // hover colour (brand colour of the platform)
+  video?: boolean; // plays in the popup instead of opening a new tab
 }
 
 const SOCIALS: Social[] = [
   { label: "GitHub", action: "Source code", url: SITE.githubUrl, icon: GitHubIcon, color: "var(--ink)" },
   { label: "LinkedIn", action: "Connect", url: SITE.linkedinUrl, icon: LinkedInIcon, color: "#0a66c2" },
-  { label: "YouTube", action: "Demo video", url: SITE.youtubeUrl, icon: YouTubeIcon, color: "#ff0033" },
+  { label: "Video", action: "Play presentation", url: DOWNLOADS.video, icon: Clapperboard, color: "var(--brand)", video: true },
 ];
 
 function initials(name: string): string {
@@ -57,8 +59,9 @@ function initials(name: string): string {
 }
 
 /** A platform button. Without a URL it stays visible but inactive ("Coming soon"). */
-function SocialButton({ label, action, url, icon: Icon, color }: Social) {
+function SocialButton({ label, action, url, icon: Icon, color, video }: Social) {
   const style = { "--social": color } as CSSProperties;
+  const videoLink = useVideoLink();
   const body = (
     <>
       <Icon className="size-6 transition-colors" />
@@ -69,11 +72,9 @@ function SocialButton({ label, action, url, icon: Icon, color }: Social) {
   const base = "flex flex-col items-center rounded-xl border border-line bg-surface px-2 py-3.5 text-ink-2 transition-colors";
   return url ? (
     <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(video ? videoLink : { href: url, target: "_blank", rel: "noopener noreferrer" })}
       style={style}
-      aria-label={`${label}: ${action} (opens in a new tab)`}
+      aria-label={`${label}: ${action}${video ? "" : " (opens in a new tab)"}`}
       className={`${base} hover:border-[var(--social)] hover:text-[var(--social)] focus-visible:border-[var(--social)] focus-visible:text-[var(--social)]`}
     >
       {body}

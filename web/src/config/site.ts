@@ -28,4 +28,5 @@ export const DOWNLOADS = {
   model: "/models/fabricscan.onnx",
   modelMeta: "/models/model_meta.json",
   modelList: "/models/models.json",
+  video: "/video/fabricscan-presentation.mp4",
 };

@@ -1,10 +1,12 @@
-import { ShieldCheck } from "lucide-react";
+import { Play, ShieldCheck } from "lucide-react";
 
 import { SITE } from "../../config/site";
-import { GitHubIcon, LinkedInIcon, YouTubeIcon } from "./icons";
+import { GitHubIcon, LinkedInIcon } from "./icons";
 import { Logo } from "./Logo";
+import { useVideoLink } from "./VideoDialog";
 
 export function Footer() {
+  const videoLink = useVideoLink();
   return (
     <footer className="dark relative border-t border-line bg-surface">
       <div className="absolute inset-x-0 -top-px h-0.5 opacity-70" style={{ background: "var(--grad-line)" }} aria-hidden="true" />
@@ -29,11 +31,9 @@ export function Footer() {
                 <LinkedInIcon className="size-4" />
               </a>
             )}
-            {SITE.youtubeUrl && (
-              <a href={SITE.youtubeUrl} target="_blank" rel="noreferrer" className="btn btn-secondary" aria-label="Demo video on YouTube">
-                <YouTubeIcon className="size-4" />
-              </a>
-            )}
+            <a {...videoLink} className="btn btn-secondary">
+              <Play className="size-4" aria-hidden="true" /> Video
+            </a>
           </div>
           <p className="text-muted">
             © {SITE.year} {SITE.author || SITE.name}. Built with TensorFlow, ONNX Runtime Web and React.

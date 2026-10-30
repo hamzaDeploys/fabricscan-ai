@@ -101,14 +101,41 @@ test("uploading a photo works and a non-image is rejected", async ({ page }) => 
   await expect(page.getByRole("alert")).toContainText("is not an image");
 });
 
-test("about section shows the GitHub, LinkedIn and YouTube buttons", async ({ page }, info) => {
+test("about section shows the GitHub, LinkedIn and video buttons", async ({ page }, info) => {
   const about = page.locator("#about");
   await about.scrollIntoViewIfNeeded();
   const socials = page.getByTestId("social-links").locator("li");
   await expect(socials).toHaveCount(3);
-  for (const name of ["GitHub", "LinkedIn", "YouTube"]) await expect(socials.filter({ hasText: name })).toHaveCount(1);
+  for (const name of ["GitHub", "LinkedIn", "Video"]) await expect(socials.filter({ hasText: name })).toHaveCount(1);
   await page.waitForTimeout(700); // fade-in
   await about.screenshot({ path: `${SHOTS}/${info.project.name}-about.png` });
+});
+
+test("the video plays in a popup and closes again", async ({ page }, info) => {
+  const link = page.getByTestId("link-video");
+  const dialog = page.getByTestId("video-dialog");
+  const player = page.getByTestId("video-player");
+  await link.scrollIntoViewIfNeeded();
+  await expect(player).toHaveCount(0); // nothing is loaded before the click
+
+  await link.click();
+  await expect(dialog).toBeVisible();
+  await expect.poll(() => player.evaluate((v: HTMLVideoElement) => v.duration), { timeout: 20_000 }).toBeGreaterThan(300);
+  await expect.poll(() => player.evaluate((v: HTMLVideoElement) => v.currentTime), { timeout: 20_000 }).toBeGreaterThan(0);
+  await page.screenshot({ path: `${SHOTS}/${info.project.name}-video.png` });
+
+  await page.getByRole("button", { name: "Close video" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(player).toHaveCount(0); // closing stops the sound
+
+  await link.click(); // Esc, then the dark area around the player
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await link.click();
+  await expect(dialog).toBeVisible();
+  await page.mouse.click(4, 4);
+  await expect(dialog).toBeHidden();
 });
 
 test("project links, dataset download and links readable without JavaScript", async ({ page, request }, info) => {
@@ -128,6 +155,7 @@ test("project links, dataset download and links readable without JavaScript", as
   expect(html).toContain("/downloads/fabricscan-dataset.zip");
   const project = await (await request.get("/project.json")).json();
   expect(project.dataset).toBe("/downloads/fabricscan-dataset.zip");
+  expect(project.video).toBe("/video/fabricscan-presentation.mp4");
 });
 
 test("nothing overflows the screen horizontally", async ({ page }) => {

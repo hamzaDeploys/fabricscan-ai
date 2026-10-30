@@ -12,7 +12,7 @@ leaves the device.
 | **Live website** | **https://fabricscan-ai.vercel.app** |
 | **Project report** | [docs/REPORT.md](docs/REPORT.md) |
 | **Presentation** | [docs/FabricScan_AI_Presentation.pptx](docs/FabricScan_AI_Presentation.pptx) (14 slides, voice-over in the speaker notes) |
-| **Video** | _YouTube link coming soon_ |
+| **Video** | Plays in a popup on the [website](https://fabricscan-ai.vercel.app/#links), or the file: [`fabricscan-presentation.mp4`](web/public/video/fabricscan-presentation.mp4) |
 | **Dataset (ZIP)** | [`web/public/downloads/fabricscan-dataset.zip`](web/public/downloads/fabricscan-dataset.zip) |
 | **Model weights** | [`weights/`](weights/) |
 
