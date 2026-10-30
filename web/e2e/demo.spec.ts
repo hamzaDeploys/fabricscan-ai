@@ -101,12 +101,12 @@ test("uploading a photo works and a non-image is rejected", async ({ page }) => 
   await expect(page.getByRole("alert")).toContainText("is not an image");
 });
 
-test("about section shows the GitHub, LinkedIn and video buttons", async ({ page }, info) => {
+test("about section shows the GitHub, LinkedIn and YouTube buttons", async ({ page }, info) => {
   const about = page.locator("#about");
   await about.scrollIntoViewIfNeeded();
   const socials = page.getByTestId("social-links").locator("li");
   await expect(socials).toHaveCount(3);
-  for (const name of ["GitHub", "LinkedIn", "Video"]) await expect(socials.filter({ hasText: name })).toHaveCount(1);
+  for (const name of ["GitHub", "LinkedIn", "YouTube"]) await expect(socials.filter({ hasText: name })).toHaveCount(1);
   await page.waitForTimeout(700); // fade-in
   await about.screenshot({ path: `${SHOTS}/${info.project.name}-about.png` });
 });

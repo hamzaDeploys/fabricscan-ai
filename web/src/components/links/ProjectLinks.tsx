@@ -1,10 +1,10 @@
-import { BrainCircuit, Clapperboard, Database, Download, ExternalLink, FileText, Play, Presentation } from "lucide-react";
+import { BrainCircuit, Database, Download, ExternalLink, FileText, Play, Presentation } from "lucide-react";
 import { motion } from "motion/react";
 import type { ComponentType, SVGProps } from "react";
 
 import { DOWNLOADS, SITE } from "../../config/site";
 import { useSiteData } from "../../hooks/useSiteData";
-import { GitHubIcon } from "../layout/icons";
+import { GitHubIcon, YouTubeIcon } from "../layout/icons";
 import { SectionHeader } from "../layout/SectionHeader";
 import { useVideoLink } from "../layout/VideoDialog";
 
@@ -107,9 +107,9 @@ export function ProjectLinks() {
       id: "video",
       title: "Video",
       text: "The presentation explained with a voice-over. It plays right here on this page.",
-      icon: Clapperboard,
+      icon: YouTubeIcon,
       url: DOWNLOADS.video,
-      action: "Play video",
+      action: "YouTube",
       video: true,
     },
   ];

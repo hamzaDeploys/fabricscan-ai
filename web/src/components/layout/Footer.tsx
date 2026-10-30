@@ -1,7 +1,7 @@
-import { Play, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 import { SITE } from "../../config/site";
-import { GitHubIcon, LinkedInIcon } from "./icons";
+import { GitHubIcon, LinkedInIcon, YouTubeIcon } from "./icons";
 import { Logo } from "./Logo";
 import { useVideoLink } from "./VideoDialog";
 
@@ -32,7 +32,7 @@ export function Footer() {
               </a>
             )}
             <a {...videoLink} className="btn btn-secondary">
-              <Play className="size-4" aria-hidden="true" /> Video
+              <YouTubeIcon className="size-4" /> YouTube
             </a>
           </div>
           <p className="text-muted">

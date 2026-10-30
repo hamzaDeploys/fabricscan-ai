@@ -1,9 +1,9 @@
-import { BookOpen, Clapperboard, GraduationCap, Rocket, Scale, UserRound, type LucideIcon } from "lucide-react";
+import { BookOpen, GraduationCap, Rocket, Scale, UserRound, type LucideIcon } from "lucide-react";
 import type { ComponentType, CSSProperties, SVGProps } from "react";
 
 import { DOWNLOADS, SITE } from "../../config/site";
 import { DEFECTS } from "../../lib/defectKnowledge";
-import { GitHubIcon, LinkedInIcon } from "../layout/icons";
+import { GitHubIcon, LinkedInIcon, YouTubeIcon } from "../layout/icons";
 import { LogoMark } from "../layout/Logo";
 import { SectionHeader } from "../layout/SectionHeader";
 import { useVideoLink } from "../layout/VideoDialog";
@@ -45,7 +45,7 @@ interface Social {
 const SOCIALS: Social[] = [
   { label: "GitHub", action: "Source code", url: SITE.githubUrl, icon: GitHubIcon, color: "var(--ink)" },
   { label: "LinkedIn", action: "Connect", url: SITE.linkedinUrl, icon: LinkedInIcon, color: "#0a66c2" },
-  { label: "Video", action: "Play presentation", url: DOWNLOADS.video, icon: Clapperboard, color: "var(--brand)", video: true },
+  { label: "YouTube", action: "Play video", url: DOWNLOADS.video, icon: YouTubeIcon, color: "#ff0033", video: true },
 ];
 
 function initials(name: string): string {
