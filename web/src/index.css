@@ -222,26 +222,8 @@
   }
 }
 
-/* Example in the window, one 8 s cycle: the beam scans the photo inside the corners (step 1), then the model's
-   real result is shown (step 2). Only transform and opacity change, which the GPU composites without repainting.
-   The resting opacities show step 2, the useful frame when animations are switched off. */
-.hero-step-1 {
-  opacity: 0;
-  animation: hero-step-1 8s linear infinite;
-}
-.hero-step-2 {
-  animation: hero-step-2 8s linear infinite;
-}
-@keyframes hero-step-1 {
-  0%, 42% { opacity: 1; }
-  48%, 94% { opacity: 0; }
-  100% { opacity: 1; }
-}
-@keyframes hero-step-2 {
-  0%, 42% { opacity: 0; }
-  48%, 94% { opacity: 1; }
-  100% { opacity: 0; }
-}
+/* A scan beam passes over the example every 8 s. Only transform and opacity change, which the GPU composites
+   without repainting. */
 .hero-beam {
   opacity: 0;
   animation: hero-beam 8s ease-in-out infinite;

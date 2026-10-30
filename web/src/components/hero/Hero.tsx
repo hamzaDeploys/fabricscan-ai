@@ -4,8 +4,8 @@ import { motion } from "motion/react";
 import { useSiteData } from "../../hooks/useSiteData";
 import { pct } from "../../lib/format";
 
-/** What this app really reports for public/hero/photo.webp with MobileNetV2. */
-const EXAMPLE = { label: "Stain / Oil Spot", confidence: 0.991, severity: "High", location: "center", area: "≈ 8.6%" };
+/** What this app really reports with MobileNetV2 for the close-up in public/hero/photo.webp. */
+const EXAMPLE = { label: "Hole", confidence: 0.818, severity: "High", location: "center" };
 
 function ModelWindow() {
   return (
@@ -26,13 +26,8 @@ function ModelWindow() {
           <span className="text-right text-[10px] font-semibold tracking-[0.14em] text-accent uppercase">Model output</span>
         </div>
         <div className="relative mx-3 aspect-[6/5] overflow-hidden rounded-xl bg-surface-3">
-          <img src="/hero/photo.webp" alt="Close-up of a white T-shirt with orange stains" width={800} height={667} className="absolute inset-0 size-full object-cover" />
-          {/* The app's estimated defect area for this photo (its bounding box, in this crop). */}
-          <div
-            className="hero-step-2 absolute top-[7.1%] left-[6.5%] h-[73.9%] w-[76.8%] rounded-xl border-2 border-[#ff4828] shadow-[0_0_0_1.5px_rgba(255,255,255,0.95)]"
-            aria-hidden="true"
-          />
-          <div className="hero-step-1 scan-corners absolute inset-x-[9%] top-[8%] bottom-[24%]" aria-hidden="true">
+          <img src="/hero/photo.webp" alt="Close-up of dark woven fabric with a hole" width={800} height={667} className="absolute inset-0 size-full object-cover" />
+          <div className="scan-corners absolute inset-x-[6%] top-[7%] bottom-[23%]" aria-hidden="true">
             <i />
             <i />
             <i />
@@ -46,7 +41,7 @@ function ModelWindow() {
             <span className="min-w-0">
               <span className="block font-display text-sm font-semibold text-ink">{EXAMPLE.label}</span>
               <span className="block text-xs text-ink-2">
-                {pct(EXAMPLE.confidence)} confidence · {EXAMPLE.severity} severity · {EXAMPLE.location} · {EXAMPLE.area} area
+                {pct(EXAMPLE.confidence)} confidence · {EXAMPLE.severity} severity · {EXAMPLE.location}
               </span>
             </span>
           </figcaption>
@@ -59,7 +54,7 @@ function ModelWindow() {
             <span>Preprocess → Predict → Report</span>
           </p>
           <p className="mt-1.5 text-[10.5px] leading-snug text-muted">
-            Close-up crop of a photo outside the dataset. Kaggle: anmol055/clothes-staindefect-detection (CC BY 4.0)
+            Close-up crop of a photo found on the web (Google Images), outside the dataset. Original source not confirmed.
           </p>
         </div>
       </div>
