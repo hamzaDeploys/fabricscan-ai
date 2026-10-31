@@ -15,7 +15,7 @@ export const SITE = {
   course: "Deep Learning (semester project)",
   instructor: "Dr. Munir Ahmed",
   githubUrl: "https://github.com/hamzaDeploys/fabricscan-ai",
-  linkedinUrl: "",
+  linkedinUrl: "https://www.linkedin.com/in/imhamza-ilyas",
   youtubeUrl: "",
   reportUrl: "https://github.com/hamzaDeploys/fabricscan-ai/blob/main/docs/REPORT.md",
   presentationUrl: "https://github.com/hamzaDeploys/fabricscan-ai/blob/main/docs/FabricScan_AI_Presentation.pptx",
